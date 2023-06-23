@@ -17,14 +17,15 @@
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
         <assertj-core.version>3.24.2</assertj-core.version>
+        <dragee.version>0.0.1</dragee.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>io.dragee</groupId>
-                <artifactId>dragee-maven-plugin</artifactId>
-                <version>0.0.1</version>
+                <artifactId>dragee-maven-bom</artifactId>
+                <version>${dragee.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -72,6 +73,7 @@
                         <path>
                             <groupId>io.dragee</groupId>
                             <artifactId>annotation-processor</artifactId>
+                            <version>${dragee.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

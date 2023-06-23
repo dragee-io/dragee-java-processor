@@ -9,8 +9,8 @@ Dependencies are provided through the use of a bom dependency.
     <dependencies>
         <dependency>
             <groupId>io.dragee</groupId>
-            <artifactId>dragee-maven-plugin</artifactId>
-            <version>${dragee-maven-plugin.version}</version>
+            <artifactId>dragee-maven-bom</artifactId>
+            <version>${dragee.version}</version>
             <scope>import</scope>
             <type>pom</type>
         </dependency>
@@ -26,8 +26,7 @@ This dependency is mandatory in order to process objects that are assignable to 
 <dependencies>
     <dependency>
         <groupId>io.dragee</groupId>
-        <artifactId>ddd-annotations</artifactId>
-        <version>${ddd-annotations.version}</version>
+        <artifactId>annotation-processor</artifactId>
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -43,6 +42,7 @@ This dependency is mandatory in order to process objects that are assignable to 
                     <path>
                         <groupId>io.dragee</groupId>
                         <artifactId>annotation-processor</artifactId>
+                        <version>${dragee.version}</version>
                     </path>
                 </annotationProcessorPaths>
             </configuration>
@@ -63,6 +63,7 @@ All the annotations relative to DDD tactical patterns.
 <dependency>
     <groupId>io.dragee</groupId>
     <artifactId>ddd-annotations</artifactId>
+    <scope>provided</scope>
 </dependency>
 ```
 

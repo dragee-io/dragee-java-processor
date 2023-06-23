@@ -13,6 +13,7 @@
         <module>annotation-processor</module>
         <module>core-annotations</module>
         <module>ddd-annotations</module>
+        <module>bom</module>
     </modules>
 
     <properties>
