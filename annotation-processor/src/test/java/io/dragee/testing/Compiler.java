@@ -26,9 +26,7 @@ public class Compiler {
         URI buildURI = getClass().getResource("/").toURI();
         Path buildPath = Path.of(buildURI);
 
-        this.compilationFolder = Files.createDirectories(buildPath.getParent()
-                .resolve("generated-dragees")
-                .resolve(String.valueOf(System.currentTimeMillis())));
+        this.compilationFolder = Files.createDirectories(buildPath.getParent().resolve("generated-dragees"));
         this.sourceOutputFolder = Files.createDirectories(compilationFolder.resolve("sources"));
         this.classOutputFolder = Files.createDirectories(compilationFolder.resolve("classes"));
 
