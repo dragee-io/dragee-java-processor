@@ -13,15 +13,11 @@
     <artifactId>ddd-annotations</artifactId>
     <packaging>jar</packaging>
 
-    <properties>
-        <core-annotations.version>0.0.1</core-annotations.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>io.dragee</groupId>
             <artifactId>core-annotations</artifactId>
-            <version>${core-annotations.version}</version>
+            <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

@@ -17,15 +17,13 @@
         <auto-service.version>1.1.1</auto-service.version>
         <jackson.version>2.13.4</jackson.version>
         <lombok.version>1.18.26</lombok.version>
-        <core-annotations.version>0.0.1</core-annotations.version>
-        <ddd-annotations.version>0.0.1</ddd-annotations.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.dragee</groupId>
             <artifactId>core-annotations</artifactId>
-            <version>${core-annotations.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.auto.service</groupId>
