@@ -49,12 +49,16 @@ public class Compiler {
         return new Process().execute();
     }
 
-    public static Compiler compileTestClasses(Path... sourcePaths) throws IOException, URISyntaxException {
+    public static Compiler compileTestClasses(Path... sourcePaths) {
         List<Path> testSourcePaths = List.of(sourcePaths).stream()
                 .map(path -> Path.of("src", "test", "java").resolve(path))
                 .toList();
 
-        return new Compiler(testSourcePaths);
+        try {
+            return new Compiler(testSourcePaths);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to compile test classes", e);
+        }
     }
 
     private static List<Path> walkThroughFiles(List<Path> sourcePaths) {

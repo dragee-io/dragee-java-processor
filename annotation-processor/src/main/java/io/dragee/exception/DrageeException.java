@@ -6,4 +6,8 @@ public class DrageeException extends RuntimeException {
         super(message);
     }
 
+    protected DrageeException(String message, Throwable innerException) {
+        super(message, innerException);
+    }
+
 }

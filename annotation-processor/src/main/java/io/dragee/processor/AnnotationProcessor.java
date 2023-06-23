@@ -13,7 +13,6 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -31,13 +30,9 @@ public class AnnotationProcessor extends AbstractProcessor {
             return false;
         }
 
-        try {
-            List<Dragee> dragees = drageeFactory.createDrajes(annotations, roundEnv);
-            DrageeSerializer serializer = new JacksonDrageeSerializer(processingEnv.getFiler());
-            serializer.serialize(dragees);
-            return true;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        List<Dragee> dragees = drageeFactory.createDragees(annotations, roundEnv);
+        DrageeSerializer serializer = new JacksonDrageeSerializer(processingEnv.getFiler());
+        serializer.serialize(dragees);
+        return true;
     }
 }

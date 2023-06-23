@@ -1,6 +1,7 @@
 package io.dragee.serializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.dragee.exception.SerializationFailed;
 import io.dragee.model.Dragee;
 
 import javax.annotation.processing.Filer;
@@ -27,15 +28,19 @@ public class JacksonDrageeSerializer implements DrageeSerializer {
     }
 
     @Override
-    public void serialize(List<Dragee> dragees) throws IOException {
-        Path buildPath = rootOfBuildDirectory();
-        Path drageeFolder = Files.createDirectories(buildPath.resolve(DRAGEE_FOLDER));
+    public void serialize(List<Dragee> dragees) throws SerializationFailed {
+        try {
+            Path buildPath = rootOfBuildDirectory();
+            Path drageeFolder = Files.createDirectories(buildPath.resolve(DRAGEE_FOLDER));
 
-        for (Dragee dragee : dragees) {
-            Path drageePath = pathOfDragee(dragee);
-            Path drageeFullPath = Files.createDirectories(drageeFolder.resolve(drageePath));
-            Path resultPath = drageeFullPath.resolve(dragee.shortName() + FILE_SUFFIX);
-            objectMapper.writeValue(resultPath.toFile(), dragee);
+            for (Dragee dragee : dragees) {
+                Path drageePath = pathOfDragee(dragee);
+                Path drageeFullPath = Files.createDirectories(drageeFolder.resolve(drageePath));
+                Path resultPath = drageeFullPath.resolve(dragee.shortName() + FILE_SUFFIX);
+                objectMapper.writeValue(resultPath.toFile(), dragee);
+            }
+        } catch (Exception e) {
+            throw new SerializationFailed(e);
         }
     }
 

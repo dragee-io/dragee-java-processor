@@ -3,23 +3,23 @@ package io.dragee.rules.serializer;
 import io.dragee.testing.Compiler;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DrageeSerializerTest {
 
+    private static final Path SOURCE_FOLDER = Path.of("io", "dragee", "rules", "sample");
+
     @Test
-    void serialize_object_to_dragee() throws IOException, URISyntaxException {
+    void serialize_object_to_dragee() {
         // given
         Compiler compiler = Compiler.compileTestClasses(
-                Path.of("io", "dragee", "rules", "sample", "DrageeOne.java"),
-                Path.of("io", "dragee", "rules", "sample", "DrageeTwo.java"),
-                Path.of("io", "dragee", "rules", "sample", "DrageeThree.java"),
-                Path.of("io", "dragee", "rules", "sample", "DrageeFour.java"),
-                Path.of("io", "dragee", "rules", "sample", "DrageeFive.java")
+                SOURCE_FOLDER.resolve("DrageeOne.java"),
+                SOURCE_FOLDER.resolve("DrageeTwo.java"),
+                SOURCE_FOLDER.resolve("DrageeThree.java"),
+                SOURCE_FOLDER.resolve("DrageeFour.java"),
+                SOURCE_FOLDER.resolve("DrageeFive.java")
         );
 
         // when

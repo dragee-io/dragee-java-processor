@@ -1,6 +1,5 @@
 package io.dragee.processor;
 
-import io.dragee.exception.DrageeCanNotBeOfMultipleKinds;
 import io.dragee.model.Constructor;
 import io.dragee.model.Field;
 import io.dragee.model.Method;
@@ -11,29 +10,12 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.TypeElement;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
 
-record DrageeElement(Element element, Set<? extends TypeElement> annotations) {
+record DrageeElement(Element element, Kind kind) {
 
     public String name() {
         return element.toString();
-    }
-
-    public String kind() {
-        List<String> kinds = annotations.stream()
-                .flatMap(annotation -> Stream.ofNullable(annotation.getAnnotation(io.dragee.annotation.Dragee.class)))
-                .map(io.dragee.annotation.Dragee::value)
-                .sorted()
-                .toList();
-
-        if (kinds.size() != 1) {
-            throw new DrageeCanNotBeOfMultipleKinds(name(), kinds);
-        }
-
-        return kinds.get(0);
     }
 
     public List<Constructor> constructors() {
