@@ -28,11 +28,6 @@
             <version>${core-annotations.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.dragee</groupId>
-            <artifactId>ddd-annotations</artifactId>
-            <version>${ddd-annotations.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.auto.service</groupId>
             <artifactId>auto-service</artifactId>
             <version>${auto-service.version}</version>

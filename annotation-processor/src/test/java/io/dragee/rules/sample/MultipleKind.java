@@ -1,4 +1,4 @@
-package io.dragee.rules.core.sample;
+package io.dragee.rules.sample;
 
 import io.dragee.testing.KindOne;
 import io.dragee.testing.KindTwo;

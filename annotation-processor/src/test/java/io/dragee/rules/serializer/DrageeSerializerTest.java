@@ -1,4 +1,4 @@
-package io.dragee.rules.core.serializer;
+package io.dragee.rules.serializer;
 
 import io.dragee.testing.Compiler;
 import org.junit.jupiter.api.Test;
@@ -14,11 +14,11 @@ public class DrageeSerializerTest {
     void serialize_object_to_dragee() throws IOException {
         // given
         Compiler compiler = Compiler.compileTestClasses(
-                Path.of("io", "dragee", "rules", "core", "sample", "DrageeOne.java"),
-                Path.of("io", "dragee", "rules", "core", "sample", "DrageeTwo.java"),
-                Path.of("io", "dragee", "rules", "core", "sample", "DrageeThree.java"),
-                Path.of("io", "dragee", "rules", "core", "sample", "DrageeFour.java"),
-                Path.of("io", "dragee", "rules", "core", "sample", "DrageeFive.java")
+                Path.of("io", "dragee", "rules", "sample", "DrageeOne.java"),
+                Path.of("io", "dragee", "rules", "sample", "DrageeTwo.java"),
+                Path.of("io", "dragee", "rules", "sample", "DrageeThree.java"),
+                Path.of("io", "dragee", "rules", "sample", "DrageeFour.java"),
+                Path.of("io", "dragee", "rules", "sample", "DrageeFive.java")
         );
 
         // when
