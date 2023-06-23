@@ -9,7 +9,6 @@ import javax.tools.ToolProvider;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
 
 public class Compiler {
@@ -21,7 +20,7 @@ public class Compiler {
         DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
 
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
-        Path temporaryFolder = Files.createTempDirectory("draje");
+        Path temporaryFolder = Files.createTempDirectory("dragee");
         fileManager.setLocationFromPaths(StandardLocation.SOURCE_OUTPUT, List.of(temporaryFolder));
         fileManager.setLocationFromPaths(StandardLocation.CLASS_OUTPUT, List.of(temporaryFolder));
 

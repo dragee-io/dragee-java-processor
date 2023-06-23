@@ -6,7 +6,7 @@ import java.util.List;
 
 @Builder
 public record Dragee(
-        List<String> kindOf,
+        String kindOf,
         String name,
         List<Constructor> constructors,
         List<Field> fields,

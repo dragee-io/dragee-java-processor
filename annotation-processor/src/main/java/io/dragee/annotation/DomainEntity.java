@@ -7,7 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@KindOf
+@KindOf("domain_entity")
 @Documented
 @Inherited
 @Target({ElementType.TYPE})

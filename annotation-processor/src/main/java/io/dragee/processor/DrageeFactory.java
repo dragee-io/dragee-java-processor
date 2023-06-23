@@ -1,6 +1,7 @@
 package io.dragee.processor;
 
 import io.dragee.annotation.KindOf;
+import io.dragee.exception.DrageeCanNotBeOfMultipleKinds;
 import io.dragee.model.Constructor;
 import io.dragee.model.Dragee;
 import io.dragee.model.Field;
@@ -14,16 +15,25 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DrageeFactory {
 
     public List<Dragee> createDrajes(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        List<AnnotatedElement> annotatedElements = getElementsWithTheirAnnotations(annotations, roundEnv);
+
+        return createDrajes(annotatedElements);
+    }
+
+    private static List<AnnotatedElement> getElementsWithTheirAnnotations(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         Map<Element, Set<TypeElement>> annotationsPerElement = new HashMap<>();
 
         annotations.forEach(annotation -> roundEnv.getElementsAnnotatedWith(annotation)
@@ -33,15 +43,14 @@ public class DrageeFactory {
         List<AnnotatedElement> annotatedElements = annotationsPerElement.entrySet().stream()
                 .map(entry -> new AnnotatedElement(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
-
-        return createDrajes(annotatedElements);
+        return annotatedElements;
     }
 
     private List<Dragee> createDrajes(List<AnnotatedElement> annotatedElements) {
         return annotatedElements.stream()
                 .map(annotatedElement -> Dragee.builder()
-                        .kindOf(kindOf(annotatedElement))
                         .name(nameOf(annotatedElement))
+                        .kindOf(kindOf(annotatedElement))
                         .constructors(constructorsOf(annotatedElement.element))
                         .fields(fieldsOf(annotatedElement.element))
                         .methods(methodsOf(annotatedElement.element))
@@ -53,11 +62,17 @@ public class DrageeFactory {
         return annotatedElement.element.toString();
     }
 
-    private static List<String> kindOf(AnnotatedElement annotatedElement) {
-        return annotatedElement.annotations.stream()
-                .filter(annotation -> annotation.getAnnotation(KindOf.class) != null)
-                .map(annotation -> annotation.getSimpleName().toString())
+    private static String kindOf(AnnotatedElement annotatedElement) {
+        List<String> kinds = annotatedElement.annotations.stream()
+                .flatMap(annotation -> Stream.ofNullable(annotation.getAnnotation(KindOf.class)))
+                .map(KindOf::value)
                 .toList();
+
+        if (kinds.size() != 1) {
+            throw new DrageeCanNotBeOfMultipleKinds(nameOf(annotatedElement), kinds);
+        }
+
+        return kinds.get(0);
     }
 
     private static List<Constructor> constructorsOf(Element element) {
@@ -110,6 +125,13 @@ public class DrageeFactory {
     }
 
     private record AnnotatedElement(Element element, Set<? extends TypeElement> annotations) {
+
+        Optional<? extends TypeElement> find(Class<? extends Annotation> annotation) {
+            return annotations.stream()
+                    .filter(a -> a.getQualifiedName().contentEquals(annotation.getName()))
+                    .findFirst();
+        }
+
     }
 
 }
