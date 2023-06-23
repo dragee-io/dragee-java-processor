@@ -10,10 +10,9 @@
     <name>Dragee Maven Plugin</name>
 
     <modules>
-        <module>sample-project</module>
         <module>annotation-processor</module>
-        <module>ddd-annotations</module>
         <module>core-annotations</module>
+        <module>ddd-annotations</module>
     </modules>
 
     <properties>
