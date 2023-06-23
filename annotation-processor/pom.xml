@@ -4,24 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.dragee</groupId>
+    <parent>
+        <groupId>io.dragee</groupId>
+        <artifactId>dragee-maven-plugin</artifactId>
+        <version>0.0.1</version>
+    </parent>
+
     <artifactId>annotation-processor</artifactId>
-    <version>0.0.1</version>
     <packaging>jar</packaging>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <maven.compiler.version>3.11.0</maven.compiler.version>
-        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
         <auto-service.version>1.1.1</auto-service.version>
         <jackson.version>2.13.4</jackson.version>
         <lombok.version>1.18.26</lombok.version>
         <core-annotations.version>0.0.1</core-annotations.version>
         <ddd-annotations.version>0.0.1</ddd-annotations.version>
-        <junit-jupiter.version>5.9.2</junit-jupiter.version>
-        <assertj-core.version>3.24.2</assertj-core.version>
     </properties>
 
     <dependencies>
@@ -53,27 +50,10 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${junit-jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${assertj-core.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

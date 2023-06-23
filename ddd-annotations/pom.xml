@@ -4,15 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.dragee</groupId>
+    <parent>
+        <groupId>io.dragee</groupId>
+        <artifactId>dragee-maven-plugin</artifactId>
+        <version>0.0.1</version>
+    </parent>
+
     <artifactId>ddd-annotations</artifactId>
-    <version>0.0.1</version>
     <packaging>jar</packaging>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
         <core-annotations.version>0.0.1</core-annotations.version>
     </properties>
 
@@ -22,6 +23,12 @@
             <artifactId>core-annotations</artifactId>
             <version>${core-annotations.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
