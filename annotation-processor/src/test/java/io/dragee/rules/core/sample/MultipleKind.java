@@ -1,4 +1,4 @@
-package io.dragee.sample.rules.kind;
+package io.dragee.rules.core.sample;
 
 import io.dragee.annotation.ddd.Aggregate;
 import io.dragee.annotation.ddd.ValueObject;

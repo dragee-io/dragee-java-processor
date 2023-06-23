@@ -1,27 +1,27 @@
-package io.dragee.processor;
+package io.dragee.rules.core;
 
 import io.dragee.exception.DrageeCanNotBeOfMultipleKinds;
+import io.dragee.testing.Compiler;
 import org.junit.jupiter.api.Test;
 
-import javax.tools.JavaCompiler;
 import java.io.IOException;
 import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-public class KindOfDrageeTest {
+public class DrageeTest {
 
     @Test
     void a_dragee_can_be_of_only_one_kind() throws IOException {
         // given
-        Path sourcePath = Path.of("io", "dragee", "sample", "rules", "kind", "MultipleKind.java");
-        JavaCompiler.CompilationTask task = ProcessorTest.prepareTaskFor(sourcePath);
+        Path sourcePath = Path.of("io", "dragee", "rules", "core", "sample", "MultipleKind.java");
+        Compiler compiler = Compiler.compileTestClasses(sourcePath);
 
         // when
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(task::call)
+                .isThrownBy(compiler::executeProcessor)
                 .withCauseInstanceOf(DrageeCanNotBeOfMultipleKinds.class)
-                .withMessageContaining("Dragee can not be of multiple kinds: 'io.dragee.sample.rules.kind.MultipleKind', [aggregate,value_object]");
+                .withMessageContaining("Dragee can not be of multiple kinds: 'io.dragee.rules.core.sample.MultipleKind', [aggregate,value_object]");
     }
 
 }
