@@ -8,6 +8,24 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+'
       - '[0-9]+.[0-9]+.[0-9]+-rc.[0-9]+'
 jobs:
+  cleanup:
+    if: github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package-to-remove:
+          - dragee-maven-plugin
+          - dragee-maven-bom
+          - annotation-processor
+          - core-annotations
+          - ddd-annotations
+    steps:
+      - name: Clean packages relative to main branch
+        uses: paulushcgcj/delete-github-package@1.0.0
+        with:
+          type: maven
+          name: io.dragee.${{ matrix.package-to-remove }}
+          version: 'main'
   deploy:
     runs-on: ubuntu-latest
     steps:
