@@ -1,6 +1,5 @@
 package io.dragee.processor;
 
-import io.dragee.annotation.KindOf;
 import io.dragee.exception.DrageeCanNotBeOfMultipleKinds;
 import io.dragee.model.Constructor;
 import io.dragee.model.Dragee;
@@ -15,19 +14,17 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DrageeFactory {
 
-    public List<Dragee> createDrajes(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+    public List<io.dragee.model.Dragee> createDrajes(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         List<AnnotatedElement> annotatedElements = getElementsWithTheirAnnotations(annotations, roundEnv);
 
         return createDrajes(annotatedElements);
@@ -45,7 +42,7 @@ public class DrageeFactory {
                 .collect(Collectors.toList());
     }
 
-    private List<Dragee> createDrajes(List<AnnotatedElement> annotatedElements) {
+    private List<io.dragee.model.Dragee> createDrajes(List<AnnotatedElement> annotatedElements) {
         return annotatedElements.stream()
                 .map(annotatedElement -> Dragee.builder()
                         .name(nameOf(annotatedElement))
@@ -63,8 +60,8 @@ public class DrageeFactory {
 
     private static String kindOf(AnnotatedElement annotatedElement) {
         List<String> kinds = annotatedElement.annotations.stream()
-                .flatMap(annotation -> Stream.ofNullable(annotation.getAnnotation(KindOf.class)))
-                .map(KindOf::value)
+                .flatMap(annotation -> Stream.ofNullable(annotation.getAnnotation(io.dragee.annotation.Dragee.class)))
+                .map(io.dragee.annotation.Dragee::value)
                 .sorted()
                 .toList();
 
@@ -125,13 +122,6 @@ public class DrageeFactory {
     }
 
     private record AnnotatedElement(Element element, Set<? extends TypeElement> annotations) {
-
-        Optional<? extends TypeElement> find(Class<? extends Annotation> annotation) {
-            return annotations.stream()
-                    .filter(a -> a.getQualifiedName().contentEquals(annotation.getName()))
-                    .findFirst();
-        }
-
     }
 
 }
