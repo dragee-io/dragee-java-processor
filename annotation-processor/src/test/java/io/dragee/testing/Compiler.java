@@ -65,15 +65,10 @@ public class Compiler {
 
     public class Process {
 
-        private final Path drageeFolder = compilationFolder.resolve("dragee");
         private boolean success;
 
-        public boolean isSuccess() {
+        public boolean success() {
             return success;
-        }
-
-        public Path drageesFolder() {
-            return drageeFolder;
         }
 
         public Process execute() {

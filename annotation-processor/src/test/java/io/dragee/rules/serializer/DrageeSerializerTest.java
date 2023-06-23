@@ -25,7 +25,7 @@ public class DrageeSerializerTest {
         Compiler.Process actualProcess = compiler.executeProcessor();
 
         // then
-        assertThat(actualProcess.isSuccess()).isTrue();
+        assertThat(actualProcess.success()).isTrue();
 
         // fixme: approval testing between files
     }

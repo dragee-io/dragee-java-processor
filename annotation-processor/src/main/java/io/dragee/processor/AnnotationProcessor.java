@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-@SupportedAnnotationTypes("io.dragee.*")
+@SupportedAnnotationTypes("*")
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
 @AutoService(Processor.class)
 public class AnnotationProcessor extends AbstractProcessor {
