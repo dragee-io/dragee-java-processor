@@ -2,14 +2,14 @@ name: build
 run-name: Tests and build project
 on:
   push:
-#    branches-ignore:
-#      - 'main'
+    branches-ignore:
+      - 'main'
     paths:
       - 'annotation-processor/src/**'
       - 'core-annotations/src/**'
       - 'ddd-annotations/src/**'
 jobs:
-  check-bats-version:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
