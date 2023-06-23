@@ -6,6 +6,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 
 @Dragee("kind_two")
-@Target({ElementType.TYPE})
+@Target(ElementType.TYPE)
 public @interface KindTwo {
 }

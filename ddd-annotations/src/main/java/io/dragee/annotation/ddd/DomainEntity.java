@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Dragee("domain_entity")
 @Documented
 @Inherited
-@Target({ElementType.TYPE})
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
 public @interface DomainEntity {
 }

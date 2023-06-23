@@ -9,6 +9,8 @@ import javax.tools.StandardJavaFileManager;
 import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -20,8 +22,13 @@ public class Compiler {
     private final Path classOutputFolder;
     private final JavaCompiler.CompilationTask task;
 
-    private Compiler(List<Path> sourcePaths) throws IOException {
-        this.compilationFolder = Files.createTempDirectory("dragee");
+    private Compiler(List<Path> sourcePaths) throws IOException, URISyntaxException {
+        URI buildURI = getClass().getResource("/").toURI();
+        Path buildPath = Path.of(buildURI);
+
+        this.compilationFolder = Files.createDirectories(buildPath.getParent()
+                .resolve("generated-dragees")
+                .resolve(String.valueOf(System.currentTimeMillis())));
         this.sourceOutputFolder = Files.createDirectories(compilationFolder.resolve("sources"));
         this.classOutputFolder = Files.createDirectories(compilationFolder.resolve("classes"));
 
@@ -42,7 +49,7 @@ public class Compiler {
         return new Process().execute();
     }
 
-    public static Compiler compileTestClasses(Path... sourcePaths) throws IOException {
+    public static Compiler compileTestClasses(Path... sourcePaths) throws IOException, URISyntaxException {
         List<Path> testSourcePaths = List.of(sourcePaths).stream()
                 .map(path -> Path.of("src", "test", "java").resolve(path))
                 .toList();

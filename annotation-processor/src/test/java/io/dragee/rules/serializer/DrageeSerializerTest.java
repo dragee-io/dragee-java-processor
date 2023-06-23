@@ -4,6 +4,7 @@ import io.dragee.testing.Compiler;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DrageeSerializerTest {
 
     @Test
-    void serialize_object_to_dragee() throws IOException {
+    void serialize_object_to_dragee() throws IOException, URISyntaxException {
         // given
         Compiler compiler = Compiler.compileTestClasses(
                 Path.of("io", "dragee", "rules", "sample", "DrageeOne.java"),

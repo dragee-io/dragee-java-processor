@@ -5,6 +5,7 @@ import io.dragee.testing.Compiler;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -12,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 public class DrageeTest {
 
     @Test
-    void a_dragee_can_be_of_only_one_kind() throws IOException {
+    void a_dragee_can_be_of_only_one_kind() throws IOException, URISyntaxException {
         // given
         Path sourcePath = Path.of("io", "dragee", "rules", "sample", "MultipleKind.java");
         Compiler compiler = Compiler.compileTestClasses(sourcePath);
