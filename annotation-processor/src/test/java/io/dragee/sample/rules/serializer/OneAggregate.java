@@ -1,6 +1,6 @@
 package io.dragee.sample.rules.serializer;
 
-import io.dragee.annotation.Aggregate;
+import io.dragee.annotation.ddd.Aggregate;
 
 @Aggregate
 public class OneAggregate {

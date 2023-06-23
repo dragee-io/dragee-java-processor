@@ -13,7 +13,7 @@ class AnnotationProcessorTest {
     @Test
     void execute_processor() throws IOException {
         // given
-        Path samplePath = Path.of("io", "dragee", "sample", "serializer");
+        Path samplePath = Path.of("io", "dragee", "sample", "rules", "serializer");
         JavaCompiler.CompilationTask task = ProcessorTest.prepareTaskFor(samplePath);
 
         // when

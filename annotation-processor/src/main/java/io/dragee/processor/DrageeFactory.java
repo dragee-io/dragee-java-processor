@@ -40,10 +40,9 @@ public class DrageeFactory {
                 .forEach(element -> annotationsPerElement.computeIfAbsent(element, (key) -> new HashSet<>())
                         .add(annotation)));
 
-        List<AnnotatedElement> annotatedElements = annotationsPerElement.entrySet().stream()
+        return annotationsPerElement.entrySet().stream()
                 .map(entry -> new AnnotatedElement(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
-        return annotatedElements;
     }
 
     private List<Dragee> createDrajes(List<AnnotatedElement> annotatedElements) {
@@ -66,6 +65,7 @@ public class DrageeFactory {
         List<String> kinds = annotatedElement.annotations.stream()
                 .flatMap(annotation -> Stream.ofNullable(annotation.getAnnotation(KindOf.class)))
                 .map(KindOf::value)
+                .sorted()
                 .toList();
 
         if (kinds.size() != 1) {

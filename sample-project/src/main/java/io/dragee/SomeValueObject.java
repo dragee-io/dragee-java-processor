@@ -1,6 +1,6 @@
 package io.dragee;
 
-import io.dragee.annotation.ValueObject;
+import io.dragee.annotation.ddd.ValueObject;
 
 @ValueObject
 public class SomeValueObject {

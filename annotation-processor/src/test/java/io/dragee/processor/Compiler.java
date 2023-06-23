@@ -21,8 +21,11 @@ public class Compiler {
 
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
         Path temporaryFolder = Files.createTempDirectory("dragee");
-        fileManager.setLocationFromPaths(StandardLocation.SOURCE_OUTPUT, List.of(temporaryFolder));
-        fileManager.setLocationFromPaths(StandardLocation.CLASS_OUTPUT, List.of(temporaryFolder));
+        Path sourceOutputFolder = Files.createDirectories(temporaryFolder.resolve("sources"));
+        Path classOutputFolder = Files.createDirectories(temporaryFolder.resolve("classes"));
+
+        fileManager.setLocationFromPaths(StandardLocation.SOURCE_OUTPUT, List.of(sourceOutputFolder));
+        fileManager.setLocationFromPaths(StandardLocation.CLASS_OUTPUT, List.of(classOutputFolder));
 
         Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromPaths(filePaths);
         return compiler.getTask(null, fileManager, diagnostics, null, null, compilationUnits);

@@ -4,15 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>io.dragee</groupId>
-        <artifactId>dragee-maven-plugin</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-
+    <groupId>io.dragee.sample</groupId>
     <artifactId>sample-project</artifactId>
+    <version>0.0.1</version>
+    <packaging>jar</packaging>
+
     <properties>
-        <annotation-processor.version>1.0-SNAPSHOT</annotation-processor.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.version>3.11.0</maven.compiler.version>
+        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+        <annotation-processor.version>0.0.1</annotation-processor.version>
+        <junit-jupiter.version>5.9.2</junit-jupiter.version>
+        <assertj-core.version>3.24.2</assertj-core.version>
     </properties>
 
     <dependencies>
@@ -22,10 +27,27 @@
             <version>${annotation-processor.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-core.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

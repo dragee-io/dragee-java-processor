@@ -1,4 +1,6 @@
-package io.dragee.annotation;
+package io.dragee.annotation.ddd;
+
+import io.dragee.annotation.KindOf;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -7,10 +9,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@KindOf("domain_event")
+@KindOf("domain_entity")
 @Documented
 @Inherited
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.SOURCE)
-public @interface DomainEvent {
+public @interface DomainEntity {
 }
