@@ -21,7 +21,7 @@ public class DrageeTest {
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(compiler::executeProcessor)
                 .withCauseInstanceOf(DrageeCanNotBeOfMultipleKinds.class)
-                .withMessageContaining("Dragee can not be of multiple kinds: 'io.dragee.rules.core.sample.MultipleKind', [aggregate,value_object]");
+                .withMessageContaining("Dragee can not be of multiple kinds: 'io.dragee.rules.core.sample.MultipleKind', [kind_one, kind_two]");
     }
 
 }

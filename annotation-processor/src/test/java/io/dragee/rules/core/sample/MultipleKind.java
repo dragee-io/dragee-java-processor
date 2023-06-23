@@ -1,9 +1,9 @@
 package io.dragee.rules.core.sample;
 
-import io.dragee.annotation.ddd.Aggregate;
-import io.dragee.annotation.ddd.ValueObject;
+import io.dragee.testing.KindOne;
+import io.dragee.testing.KindTwo;
 
-@Aggregate
-@ValueObject
+@KindOne
+@KindTwo
 public class MultipleKind {
 }
