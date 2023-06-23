@@ -19,6 +19,7 @@
 
     <modules>
         <module>core-annotations</module>
+        <module>ddd-annotations</module>
     </modules>
 
     <properties>
