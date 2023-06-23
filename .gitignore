@@ -3,6 +3,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Maven
+pom.xml.*
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
