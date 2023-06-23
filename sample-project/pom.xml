@@ -6,7 +6,7 @@
 
     <groupId>io.dragee.sample</groupId>
     <artifactId>sample-project</artifactId>
-    <version>0.0.1</version>
+    <version>unused</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -17,7 +17,7 @@
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
         <assertj-core.version>3.24.2</assertj-core.version>
-        <dragee.version>0.0.1</dragee.version>
+        <dragee.version>unused</dragee.version>
     </properties>
 
     <dependencyManagement>

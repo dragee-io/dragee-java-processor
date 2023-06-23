@@ -16,7 +16,7 @@ public class JacksonDrageeSerializer implements DrageeSerializer {
 
     private static final String PACKAGE_SEGMENT_SYMBOL = "\\.";
     private static final String PATH_SEGMENT_SYMBOL = "\\/";
-    private static final String FILE_SUFFIX = ".dragee";
+    private static final String FILE_SUFFIX = ".json";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String DRAGEE_FOLDER = "dragee";
