@@ -21,6 +21,7 @@
         <module>core-annotations</module>
         <module>ddd-annotations</module>
         <module>annotation-processor</module>
+        <module>bom</module>
     </modules>
 
     <properties>
