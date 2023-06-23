@@ -1,0 +1,10 @@
+{
+  "kind_of": "test_object",
+  "name": "io.dragee.rules.sample.DrageeOne",
+  "depends_on": {
+    "io.dragee.rules.sample.DrageeTwo": ["constructor", "field", "method_param"],
+    "io.dragee.rules.sample.DrageeThree": ["method_param"],
+    "io.dragee.rules.sample.DrageeFour": ["method_return"],
+    "io.dragee.rules.sample.DrageeFive": ["field"]
+  }
+}

@@ -2,15 +2,13 @@ package io.dragee.model;
 
 import lombok.Builder;
 
-import java.util.List;
+import java.util.Set;
 
 @Builder
 public record Dragee(
         String kindOf,
         String name,
-        List<Constructor> constructors,
-        List<Field> fields,
-        List<Method> methods) {
+        Set<Dependency> dependsOn) {
 
     public String namespace() {
         return name.substring(0, name.lastIndexOf("."));

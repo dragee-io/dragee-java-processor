@@ -7,6 +7,7 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,19 +51,24 @@ public class DrageeFactory {
         }
 
         String kindOfDragee = drageeAnnotationsOnElement.iterator().next().kind();
-        return new DrageeElement(element, Kind.of(kindOfDragee));
+        return new DrageeElement(element, DrageeElement.Kind.of(kindOfDragee));
     }
 
     private static List<Dragee> toDragees(List<DrageeElement> drageeElements) {
         return drageeElements.stream()
-                .map(drageeElement -> Dragee.builder()
-                        .name(drageeElement.name())
-                        .kindOf(drageeElement.kind().value())
-                        .constructors(drageeElement.constructors())
-                        .fields(drageeElement.fields())
-                        .methods(drageeElement.methods())
-                        .build())
+                .map(element -> toDragee(element, drageeElements))
                 .toList();
+    }
+
+    private static Dragee toDragee(DrageeElement drageeElement, List<DrageeElement> drageeElements) {
+        return Dragee.builder()
+                .name(drageeElement.name())
+                .kindOf(drageeElement.kind().value())
+                .dependsOn(drageeElements.stream()
+                        .map(drageeElement::findDependencyWith)
+                        .flatMap(Optional::stream)
+                        .collect(Collectors.toSet()))
+                .build();
     }
 
 }

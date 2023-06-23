@@ -43,8 +43,8 @@ public class Compiler {
         this.task.setProcessors(List.of(new AnnotationProcessor()));
     }
 
-    public Process executeProcessor() {
-        return new Process().execute();
+    public Result executeProcessor() {
+        return new Result().execute();
     }
 
     public static Compiler compileTestClasses(Path... sourcePaths) {
@@ -72,15 +72,28 @@ public class Compiler {
                 .toList();
     }
 
-    public class Process {
+    public class Result {
+
+        private final Path DRAGEE_FOLDER = compilationFolder.resolve("dragee");
 
         private boolean success;
+
+        private Result() {}
 
         public boolean success() {
             return success;
         }
 
-        public Process execute() {
+        public String readDrageeFile(Path relativePath) {
+            try {
+                Path drageePath = DRAGEE_FOLDER.resolve(relativePath);
+                return Files.readString(drageePath);
+            } catch (IOException e) {
+                throw new RuntimeException(String.format("Failed to read dragee file '%s'", relativePath), e);
+            }
+        }
+
+        private Result execute() {
             this.success = task.call();
             return this;
         }

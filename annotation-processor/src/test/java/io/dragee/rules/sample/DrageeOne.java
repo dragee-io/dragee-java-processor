@@ -14,7 +14,7 @@ public class DrageeOne {
 
     DrageeOne(DrageeTwo inConstructor) {}
 
-    DrageeFour handle(DrageeTwo drageeTwo) {
+    DrageeFour handle(DrageeTwo drageeTwo, DrageeThree drageeThree) {
         return new DrageeFour();
     }
 
