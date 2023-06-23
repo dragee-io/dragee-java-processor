@@ -1,5 +1,5 @@
 name: deploy
-run-name: Deploy to Maven Central
+run-name: Deploy to registry
 on:
   push:
     branches:
@@ -19,5 +19,11 @@ jobs:
           cache: maven
       - name: Set pom version with tag name
         run: mvn versions:set -DnewVersion=${{ github.ref_name }}
-      - name: Deploy to registry
-        run: echo "Not implemented yet"
+      - name: Deploy to Github Package Registry
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "<settings><servers><server><id>gh</id><username>$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $1}')</username><password>\${env.GITHUB_TOKEN}</password></server></servers></settings>" > settings.xml
+          DEPLOYMENT_REPOSITORY="gh::default::https://maven.pkg.github.com/${GITHUB_REPOSITORY}"
+          mvn --settings settings.xml deploy -DaltDeploymentRepository="${DEPLOYMENT_REPOSITORY}"
