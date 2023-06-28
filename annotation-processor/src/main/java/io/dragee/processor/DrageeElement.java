@@ -6,6 +6,7 @@ import lombok.Builder;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -30,12 +31,12 @@ record DrageeElement(Element element, Kind kind) {
             dependencyTypes.add(Dependency.Type.FIELD);
         }
 
-        boolean asMethodParam = methods().stream().anyMatch(method -> method.use(otherElement));
+        boolean asMethodParam = exposedMethods().stream().anyMatch(method -> method.use(otherElement));
         if (asMethodParam) {
             dependencyTypes.add(Dependency.Type.METHOD_PARAM);
         }
 
-        boolean asMethodReturn = methods().stream().anyMatch(method -> method.returns(otherElement));
+        boolean asMethodReturn = exposedMethods().stream().anyMatch(method -> method.returns(otherElement));
         if (asMethodReturn) {
             dependencyTypes.add(Dependency.Type.METHOD_RETURN);
         }
@@ -66,6 +67,12 @@ record DrageeElement(Element element, Kind kind) {
                 .toList();
     }
 
+    public List<Method> exposedMethods() {
+        return methods().stream()
+                .filter(method -> !method.isPrivate())
+                .toList();
+    }
+
     public List<Method> methods() {
         return element.getEnclosedElements().stream()
                 .filter(enclosedElement -> enclosedElement.getKind() == ElementKind.METHOD)
@@ -75,6 +82,7 @@ record DrageeElement(Element element, Kind kind) {
                             .name(executableElement.toString())
                             .parameters(parametersOf(executableElement))
                             .returnType(returnOf(executableElement))
+                            .isPrivate(executableElement.getModifiers().contains(Modifier.PRIVATE))
                             .build();
                 })
                 .toList();
@@ -126,7 +134,8 @@ record DrageeElement(Element element, Kind kind) {
     }
 
     @Builder
-    public record Method(String name, List<Parameter> parameters, Return returnType) {
+    public record Method(String name, boolean isPrivate, List<Parameter> parameters, Return returnType) {
+
         public boolean use(DrageeElement otherElement) {
             return parameters.stream().anyMatch(parameter -> parameter.isOrGeneric(otherElement));
         }

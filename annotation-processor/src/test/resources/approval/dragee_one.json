@@ -1,10 +1,22 @@
 {
-  "kind_of": "test_object",
   "name": "io.dragee.rules.sample.DrageeOne",
+  "kind_of": "test_object",
   "depends_on": {
-    "io.dragee.rules.sample.DrageeTwo": ["constructor", "field", "method_param"],
-    "io.dragee.rules.sample.DrageeThree": ["method_param"],
-    "io.dragee.rules.sample.DrageeFour": ["method_return"],
-    "io.dragee.rules.sample.DrageeFive": ["field"]
+    "io.dragee.rules.sample.DrageeTwo": [
+      "field",
+      "constructor",
+      "method_param"
+    ],
+    "io.dragee.rules.sample.DrageeThree": [
+      "constructor",
+      "method_param"
+    ],
+    "io.dragee.rules.sample.DrageeFour": [
+      "method_return"
+    ],
+    "io.dragee.rules.sample.DrageeFive": [
+      "field",
+      "method_return"
+    ]
   }
 }

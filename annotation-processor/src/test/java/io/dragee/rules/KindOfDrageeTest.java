@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-public class DrageeTest {
+public class KindOfDrageeTest {
 
     private static final Path SOURCE_FOLDER = Path.of("io", "dragee", "rules", "sample", "kind");
 

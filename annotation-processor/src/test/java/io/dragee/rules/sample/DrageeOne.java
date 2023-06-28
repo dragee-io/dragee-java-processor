@@ -12,10 +12,21 @@ public class DrageeOne {
 
     Map<String, List<List<DrageeFive>>> drageeInGenerics;
 
-    DrageeOne(DrageeTwo inConstructor) {}
+    DrageeOne(DrageeTwo inConstructor, List<DrageeThree> listOfDrageeThree) {}
 
-    DrageeFour handle(DrageeTwo drageeTwo, DrageeThree drageeThree) {
+    DrageeFour handle(DrageeTwo drageeTwo, Map<DrageeThree, String> mapWithDrageeThree) {
         return new DrageeFour();
+    }
+
+    List<DrageeFive> handle(Integer someValue) {
+        return List.of();
+    }
+
+    private DrageeSix handle(String someValue) {
+        return new DrageeSix();
+    }
+
+    private void handle(DrageeSeven drageeSeven) {
     }
 
 }
