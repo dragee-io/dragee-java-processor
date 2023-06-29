@@ -6,6 +6,7 @@ import io.dragee.serializer.DrageeSerializer;
 import io.dragee.serializer.JacksonDrageeSerializer;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
@@ -21,7 +22,15 @@ import java.util.Set;
 @AutoService(Processor.class)
 public class AnnotationProcessor extends AbstractProcessor {
 
-    private final DrageeFactory drageeFactory = new DrageeFactory();
+    private DrageeFactory drageeFactory;
+    private DrageeSerializer drageeSerializer;
+
+    @Override
+    public synchronized void init(ProcessingEnvironment processingEnv) {
+        super.init(processingEnv);
+        this.drageeFactory = new DrageeFactory(processingEnv.getTypeUtils());
+        this.drageeSerializer = new JacksonDrageeSerializer(processingEnv.getFiler());
+    }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
@@ -31,8 +40,7 @@ public class AnnotationProcessor extends AbstractProcessor {
         }
 
         List<Dragee> dragees = drageeFactory.createDragees(annotations, roundEnv);
-        DrageeSerializer serializer = new JacksonDrageeSerializer(processingEnv.getFiler());
-        serializer.serialize(dragees);
+        drageeSerializer.serialize(dragees);
         return true;
     }
 }
