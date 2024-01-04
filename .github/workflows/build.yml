@@ -5,9 +5,7 @@ on:
     branches-ignore:
       - 'main'
     paths:
-      - 'annotation-processor/src/**'
-      - 'core-annotations/src/**'
-      - 'ddd-annotations/src/**'
+      - '**/src/**'
 jobs:
   build:
     runs-on: ubuntu-latest
