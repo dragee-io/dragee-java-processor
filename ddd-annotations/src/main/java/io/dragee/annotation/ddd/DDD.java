@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Inherited
 @Documented
 @Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.CLASS)
 public @interface DDD {
 
     @DDD

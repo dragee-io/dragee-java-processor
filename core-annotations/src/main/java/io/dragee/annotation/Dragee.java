@@ -13,29 +13,7 @@ import java.lang.annotation.Target;
  * Basically, everything we would like to show, can be shown.
  *
  * Dragee is covering those cases by using annotations directly on what we want to highlight.
- * It can be extended by creating annotations that are annotated with {@link Dragee}.
- *
- * Example:
- * <pre>
- *  {@code
- *   // The name of a dragee is determined by annotation qualified name.
- *   //     Here, it will be "my_custom_dragee"
- *   // The kind of a dragee is a concatenation of the dragee namespace and the dragee name
- *   //     Here, it will be "my_custom_namespace/my_custom_dragee"
- *   @Dragee(namespace = "myCustomNamespace")
- *   public @interface MyCustomDragee{}
- *
- *   // This object will be a dragee of kind "my_custom_namespace/my_custom_dragee"
- *   @MyCustomDragee
- *   public class SomeObject {}
- *  }
- * </pre>
- *
- * Leaf dragee can be removed from compilation by using the retention policy "SOURCE".
- *
- * Be aware that if you're using extensions (a dragee that extend an other dragee), retention policy "RUNTIME"
- *  is currently necessary to make it works. So be careful when you're using this feature.
- *  This should be used only to group concepts under a same pattern.
+ * It can be extended by creating annotations that are annotated with {@link Dragee.Namespace} and then by annotating classes.
  *
  * <pre>
  *  {@code
@@ -48,10 +26,13 @@ import java.lang.annotation.Target;
  *   //     Here, it will be "value_object"
  *   // The kind of a dragee is a concatenation of the dragee namespace and the dragee name
  *   //     Here, it will be "ddd/value_object"
- *   // note: DDD must have retention policy RUNTIME
  *   @DDD
  *   public @interface ValueObject{} {}
  *  }
+ *
+ *  Namespace, name and kind follow the snake_case convention.
+ *
+ *  Note that namespaces annotation can not have retention policy "SOURCE", but dragees can.
  * </pre>
  */
 @Documented
@@ -67,7 +48,7 @@ public @interface Dragee {
     @Documented
     @Inherited
     @Target({ElementType.ANNOTATION_TYPE})
-    @Retention(RetentionPolicy.RUNTIME)
+    @Retention(RetentionPolicy.CLASS)
     @interface Namespace {
     }
 }
