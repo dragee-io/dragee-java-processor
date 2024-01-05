@@ -18,10 +18,15 @@ import java.lang.annotation.Target;
  * Example:
  * <pre>
  *  {@code
- *   @Dragee("my_custom_dragee")
+ *   @Dragee
  *   public @interface MyCustomDragee{}
  *  }
  * </pre>
+ *
+ * The name of the dragee follow snake case rules, must be unique across all dragees.
+ * For java, the name of a dragee is determined by the annotation qualified name.
+ *
+ * Example: MyCustomDragee becomes a dragee with name my_custom_dragee.
  */
 @Documented
 @Inherited
@@ -29,10 +34,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Dragee {
 
-    /**
-     * @return the name of the dragee.
-     *  It should be unique accross all dragees.
-     *  Naming convention is lower+snake case.
-     */
-    String value();
+    @Deprecated
+    String value() default "";
 }

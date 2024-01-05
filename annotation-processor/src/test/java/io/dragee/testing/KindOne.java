@@ -6,7 +6,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Target;
 
-@Dragee("kind_one")
+@Dragee
 @Inherited
 @Target(ElementType.TYPE)
 public @interface KindOne {
