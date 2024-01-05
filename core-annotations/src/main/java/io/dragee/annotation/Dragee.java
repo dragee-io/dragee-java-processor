@@ -18,15 +18,40 @@ import java.lang.annotation.Target;
  * Example:
  * <pre>
  *  {@code
- *   @Dragee
+ *   // The name of a dragee is determined by annotation qualified name.
+ *   //     Here, it will be "my_custom_dragee"
+ *   // The kind of a dragee is a concatenation of the dragee namespace and the dragee name
+ *   //     Here, it will be "my_custom_namespace/my_custom_dragee"
+ *   @Dragee(namespace = "myCustomNamespace")
  *   public @interface MyCustomDragee{}
+ *
+ *   // This object will be a dragee of kind "my_custom_namespace/my_custom_dragee"
+ *   @MyCustomDragee
+ *   public class SomeObject {}
  *  }
  * </pre>
  *
- * The name of the dragee follow snake case rules, must be unique across all dragees.
- * For java, the name of a dragee is determined by the annotation qualified name.
+ * Leaf dragee can be removed from compilation by using the retention policy "SOURCE".
  *
- * Example: MyCustomDragee becomes a dragee with name my_custom_dragee.
+ * Be aware that if you're using extensions (a dragee that extend an other dragee), retention policy "RUNTIME"
+ *  is currently necessary to make it works. So be careful when you're using this feature.
+ *  This should be used only to group concepts under a same pattern.
+ *
+ * <pre>
+ *  {@code
+ *   // The name of a dragee is determined by annotation qualified name.
+ *   //     Here, it will be "DDD"
+ *   // The kind of a dragee is a concatenation of the dragee namespace and the dragee name
+ *   //     Here, it will be "ddd/ddd"
+ *   @Dragee(namespace = "DDD")
+ *   public @interface DDD{}
+ *
+ *   // This is also a dragee with the same namespace: "ddd/value_object"
+ *   // note: DDD must have retention policy RUNTIME
+ *   @DDD
+ *   public @interface ValueObject{} {}
+ *  }
+ * </pre>
  */
 @Documented
 @Inherited
@@ -34,6 +59,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Dragee {
 
-    @Deprecated
-    String value() default "";
+    /**
+     * @return the namespace of a dragee.
+     *  A dragee must have a namespace in order to distinguish two identical names from different context
+     *  Some example of namespaces: "ddd", "cqrs", "hexagonal".
+     */
+    String namespace();
 }

@@ -5,7 +5,7 @@ import io.dragee.annotation.Dragee;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 
-@Dragee
-@Target(ElementType.TYPE)
+@Dragee(namespace = "testing")
+@Target({ElementType.TYPE})
 public @interface KindTwo {
 }
