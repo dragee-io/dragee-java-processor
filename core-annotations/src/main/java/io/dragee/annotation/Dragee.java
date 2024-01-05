@@ -39,14 +39,15 @@ import java.lang.annotation.Target;
  *
  * <pre>
  *  {@code
- *   // The name of a dragee is determined by annotation qualified name.
- *   //     Here, it will be "DDD"
- *   // The kind of a dragee is a concatenation of the dragee namespace and the dragee name
- *   //     Here, it will be "ddd/ddd"
- *   @Dragee(namespace = "DDD")
+ *   // The namespace is determined by the annotation qualified name.
+ *   //     Here, it will be "ddd"
+ *   @Dragee.Namespace
  *   public @interface DDD{}
  *
- *   // This is also a dragee with the same namespace: "ddd/value_object"
+ *   // The name of a dragee is determined by the annotation qualified name.
+ *   //     Here, it will be "value_object"
+ *   // The kind of a dragee is a concatenation of the dragee namespace and the dragee name
+ *   //     Here, it will be "ddd/value_object"
  *   // note: DDD must have retention policy RUNTIME
  *   @DDD
  *   public @interface ValueObject{} {}
@@ -55,14 +56,18 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Inherited
-@Target({ElementType.ANNOTATION_TYPE})
-@Retention(RetentionPolicy.RUNTIME)
+@Target({})
+@Retention(RetentionPolicy.SOURCE)
 public @interface Dragee {
 
     /**
-     * @return the namespace of a dragee.
-     *  A dragee must have a namespace in order to distinguish two identical names from different context
+     *  A dragee must be under a namespace in order to distinguish two identical names from different context
      *  Some example of namespaces: "ddd", "cqrs", "hexagonal".
      */
-    String namespace();
+    @Documented
+    @Inherited
+    @Target({ElementType.ANNOTATION_TYPE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface Namespace {
+    }
 }

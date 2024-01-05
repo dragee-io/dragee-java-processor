@@ -9,7 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Dragee(namespace = "ddd")
+@Dragee.Namespace
 @Inherited
 @Documented
 @Target(ElementType.TYPE)

@@ -1,9 +1,11 @@
 package io.dragee.rules.dragee_extension;
 
+import io.dragee.annotation.Dragee;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 
-@ExtensionTest
+@Dragee.Namespace
 @Target({ElementType.TYPE})
-public @interface DrageeGrandParent {
+public @interface ExtensionTest {
 }

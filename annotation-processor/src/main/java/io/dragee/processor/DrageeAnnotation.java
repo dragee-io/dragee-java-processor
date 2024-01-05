@@ -3,7 +3,6 @@ package io.dragee.processor;
 import io.dragee.annotation.Dragee;
 import io.dragee.util.SimpleName;
 
-import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
@@ -21,11 +20,11 @@ import static io.dragee.util.SnakeCase.toSnakeCase;
 class DrageeAnnotation {
 
     private final TypeElement element;
-    private final io.dragee.annotation.Dragee dragee;
+    private final Element namespace;
 
-    private DrageeAnnotation(TypeElement element, Dragee dragee) {
+    private DrageeAnnotation(TypeElement element, Element namespace) {
         this.element = element;
-        this.dragee = dragee;
+        this.namespace = namespace;
     }
 
     public TypeElement element() {
@@ -38,8 +37,14 @@ class DrageeAnnotation {
         return toSnakeCase(simpleName);
     }
 
+    public String namespace() {
+        String annotationName = namespace.getSimpleName().toString();
+        String simpleName = SimpleName.toSimpleName(annotationName);
+        return toSnakeCase(simpleName);
+    }
+
     public String kind() {
-        return String.join("/", dragee.namespace(), name());
+        return String.join("/", namespace(), name());
     }
 
     public boolean isPresentOn(Element element, Types types) {
@@ -72,20 +77,20 @@ class DrageeAnnotation {
     }
 
     static Optional<DrageeAnnotation> test(TypeElement annotationElement) {
-        return lookupForDrageeMainAnnotation(annotationElement)
+        return lookupForNamespace(annotationElement)
                 .map(foundDragee -> new DrageeAnnotation(annotationElement, foundDragee));
     }
 
-    private static Optional<io.dragee.annotation.Dragee> lookupForDrageeMainAnnotation(Element element) {
-        return lookupForDrageeMainAnnotation(element, new ArrayList<>());
+    private static Optional<Element> lookupForNamespace(Element element) {
+        return lookupForNamespace(element, new ArrayList<>());
     }
 
-    private static Optional<io.dragee.annotation.Dragee> lookupForDrageeMainAnnotation(Element element,
-                                                                                       List<Element> alreadyLookedUp) {
-        io.dragee.annotation.Dragee annotation = element.getAnnotation(io.dragee.annotation.Dragee.class);
+    private static Optional<Element> lookupForNamespace(Element element,
+                                                        List<Element> alreadyLookedUp) {
+        Dragee.Namespace annotation = element.getAnnotation(Dragee.Namespace.class);
 
         if (annotation != null) {
-            return Optional.of(annotation);
+            return Optional.of(element);
         }
 
         alreadyLookedUp.add(element);
@@ -93,7 +98,7 @@ class DrageeAnnotation {
         return element.getAnnotationMirrors().stream()
                 .map(annotationMirror -> annotationMirror.getAnnotationType().asElement())
                 .filter(el -> !alreadyLookedUp.contains(el))
-                .map(el -> DrageeAnnotation.lookupForDrageeMainAnnotation(el, alreadyLookedUp))
+                .map(el -> DrageeAnnotation.lookupForNamespace(el, alreadyLookedUp))
                 .flatMap(Optional::stream)
                 .findFirst();
     }
