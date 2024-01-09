@@ -19,16 +19,16 @@ import static io.dragee.util.SnakeCase.toSnakeCase;
 
 class DrageeAnnotation {
 
-    private final TypeElement element;
+    private final TypeElement annotation;
     private final Element namespace;
 
-    private DrageeAnnotation(TypeElement element, Element namespace) {
-        this.element = element;
+    private DrageeAnnotation(TypeElement annotation, Element namespace) {
+        this.annotation = annotation;
         this.namespace = namespace;
     }
 
     public String name() {
-        String annotationName = element.getQualifiedName().toString();
+        String annotationName = annotation.getQualifiedName().toString();
         String simpleName = SimpleName.toSimpleName(annotationName);
         return toSnakeCase(simpleName);
     }
@@ -48,7 +48,7 @@ class DrageeAnnotation {
         Set<Element> allAnnotationsOnElement = inheritedAnnotations(inheritedElements);
 
         return allAnnotationsOnElement.stream()
-                .anyMatch(this.element::equals);
+                .anyMatch(this.annotation::equals);
     }
 
     private Set<Element> inheritedElements(TypeMirror typeMirror, Types types) {
