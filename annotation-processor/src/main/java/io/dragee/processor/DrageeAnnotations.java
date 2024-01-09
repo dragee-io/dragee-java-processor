@@ -1,7 +1,10 @@
 package io.dragee.processor;
 
-import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.Element;
+import javax.lang.model.util.Types;
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class DrageeAnnotations {
@@ -12,10 +15,10 @@ class DrageeAnnotations {
         this.annotations = annotations;
     }
 
-    public TypeElement[] asTypeElements() {
+    public Set<DrageeAnnotation> findPresentOrInheritedOn(Element element, Types types) {
         return annotations.stream()
-                .map(DrageeAnnotation::element)
-                .toArray(TypeElement[]::new);
+                .filter(drageeAnnotation -> drageeAnnotation.isPresentOrInheritedOn(element, types))
+                .collect(Collectors.toSet());
     }
 
     public Stream<DrageeAnnotation> stream() {

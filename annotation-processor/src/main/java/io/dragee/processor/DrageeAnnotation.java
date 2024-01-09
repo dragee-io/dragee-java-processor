@@ -27,10 +27,6 @@ class DrageeAnnotation {
         this.namespace = namespace;
     }
 
-    public TypeElement element() {
-        return element;
-    }
-
     public String name() {
         String annotationName = element.getQualifiedName().toString();
         String simpleName = SimpleName.toSimpleName(annotationName);
@@ -47,7 +43,7 @@ class DrageeAnnotation {
         return String.join("/", namespace(), name());
     }
 
-    public boolean isPresentOn(Element element, Types types) {
+    public boolean isPresentOrInheritedOn(Element element, Types types) {
         Set<Element> inheritedElements = inheritedElements(element.asType(), types);
         Set<Element> allAnnotationsOnElement = inheritedAnnotations(inheritedElements);
 
