@@ -3,9 +3,7 @@ package io.dragee.processor;
 import io.dragee.model.Dragee;
 
 import java.util.Collection;
-import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 class DrageeConverter implements Function<DrageeElements, Collection<Dragee>> {
 
@@ -18,12 +16,9 @@ class DrageeConverter implements Function<DrageeElements, Collection<Dragee>> {
 
     private static Dragee toDragee(DrageeElement drageeElement, DrageeElements drageeElements) {
         return Dragee.builder()
-                .name(drageeElement.name())
+                .fullName(drageeElement.name())
                 .kindOf(drageeElement.kind().value())
-                .dependsOn(drageeElements.stream()
-                        .map(drageeElement::findDependencyWith)
-                        .flatMap(Optional::stream)
-                        .collect(Collectors.toSet()))
+                .dependsOn(drageeElements.dependenciesOf(drageeElement))
                 .build();
     }
 

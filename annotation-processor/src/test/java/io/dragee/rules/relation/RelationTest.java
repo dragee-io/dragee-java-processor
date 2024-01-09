@@ -49,7 +49,7 @@ public class RelationTest {
                 .isEqualTo(expectedContent);
     }
 
-    @DisplayName("Dragee name is based on object name")
+    @DisplayName("Dragee name is based on object fullName")
     @Nested
     class Name {
         @Test
