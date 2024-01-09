@@ -14,7 +14,7 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 
 @SupportedAnnotationTypes("*")
@@ -39,7 +39,7 @@ public class AnnotationProcessor extends AbstractProcessor {
             return false;
         }
 
-        List<Dragee> dragees = drageeFactory.createDragees(annotations, roundEnv);
+        Collection<Dragee> dragees = drageeFactory.createDragees(annotations, roundEnv);
         drageeSerializer.serialize(dragees);
         return true;
     }

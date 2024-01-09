@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class JacksonDrageeSerializer implements DrageeSerializer {
     }
 
     @Override
-    public void serialize(List<Dragee> dragees) throws SerializationFailed {
+    public void serialize(Collection<Dragee> dragees) throws SerializationFailed {
         try {
             Path buildPath = rootOfBuildDirectory();
             Path drageeFolder = Files.createDirectories(buildPath.resolve(DRAGEE_FOLDER));

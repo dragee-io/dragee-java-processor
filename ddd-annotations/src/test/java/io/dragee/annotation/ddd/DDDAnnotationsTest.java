@@ -1,39 +1,66 @@
 package io.dragee.annotation.ddd;
 
-import io.dragee.annotation.Dragee;
-import org.junit.jupiter.api.extension.ExtensionContext;
+import io.dragee.testing.Approval;
+import io.dragee.testing.Compiler;
+import net.javacrumbs.jsonunit.core.Option;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsProvider;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import java.lang.annotation.Annotation;
-import java.util.stream.Stream;
+import java.nio.file.Path;
 
+import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DDDAnnotationsTest {
 
-    @ParameterizedTest
-    @ArgumentsSource(DDDAnnotationsTest.DDDArgumentsSource.class)
-    void extends_dragee_with_ddd_annotations(Class<? extends Annotation> annotation, String kindOfDragee) {
-        assertThat(annotation.getAnnotation(Dragee.class))
-                .isNotNull()
-                .satisfies(dragee -> assertThat(dragee.value()).isEqualTo(kindOfDragee));
+    private static final Path SOURCE_FOLDER = Path.of("io", "dragee", "annotation", "ddd", "sample");
+    private static final Path OUTPUT_FOLDER = Path.of("io", "dragee", "annotation", "ddd", "sample");
+
+    private static Compiler.Result executeProcessor() {
+        Compiler compiler = Compiler.compileTestClasses(
+                SOURCE_FOLDER.resolve("AnAggregate.java"),
+                SOURCE_FOLDER.resolve("AnEntity.java"),
+                SOURCE_FOLDER.resolve("AnEvent.java"),
+                SOURCE_FOLDER.resolve("ACommand.java"),
+                SOURCE_FOLDER.resolve("AFactory.java"),
+                SOURCE_FOLDER.resolve("AService.java"),
+                SOURCE_FOLDER.resolve("ARepository.java"),
+                SOURCE_FOLDER.resolve("AValueObject.java")
+        );
+
+        return compiler.executeProcessor();
     }
 
-    public static class DDDArgumentsSource implements ArgumentsProvider {
-        @Override
-        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
-            return Stream.of(
-                    Arguments.of(Aggregate.class, "aggregate"),
-                    Arguments.of(DomainCommand.class, "domain_command"),
-                    Arguments.of(DomainEvent.class, "domain_event"),
-                    Arguments.of(DomainFactory.class, "domain_factory"),
-                    Arguments.of(DomainRepository.class, "domain_repository"),
-                    Arguments.of(DomainService.class, "domain_service"),
-                    Arguments.of(ValueObject.class, "value_object")
-            );
-        }
+    private static String contentOfDragee(Compiler.Result actualResult, String expectedFileName) {
+        return actualResult.readDrageeFile(OUTPUT_FOLDER.resolve(jsonExtension(expectedFileName)));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "AnAggregate, aggregate",
+            "AnEntity, entity",
+            "AnEvent, event",
+            "ACommand, command",
+            "AFactory, factory",
+            "AService, service",
+            "ARepository, repository",
+            "AValueObject, value_object",
+    })
+    void dragee_matches_approval_one(String expectedFileName, String approvalFileName) {
+        Compiler.Result actualResult = executeProcessor();
+
+        String actualContent = contentOfDragee(actualResult, expectedFileName);
+        String expectedContent = Approval.readFileContent(Path.of(jsonExtension(approvalFileName)));
+
+        assertThat(actualResult.success())
+                .isTrue();
+
+        assertThatJson(actualContent)
+                .when(Option.IGNORING_ARRAY_ORDER)
+                .isEqualTo(expectedContent);
+    }
+
+    private static String jsonExtension(String fileName) {
+        return fileName + ".json";
     }
 }

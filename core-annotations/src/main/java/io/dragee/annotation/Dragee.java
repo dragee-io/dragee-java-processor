@@ -13,26 +13,42 @@ import java.lang.annotation.Target;
  * Basically, everything we would like to show, can be shown.
  *
  * Dragee is covering those cases by using annotations directly on what we want to highlight.
- * It can be extended by creating annotations that are annotated with {@link Dragee}.
+ * It can be extended by creating annotations that are annotated with {@link Dragee.Namespace} and then by annotating classes.
  *
- * Example:
  * <pre>
  *  {@code
- *   @Dragee("my_custom_dragee")
- *   public @interface MyCustomDragee{}
+ *   // The namespace is determined by the annotation qualified name.
+ *   //     Here, it will be "ddd"
+ *   @Dragee.Namespace
+ *   public @interface DDD{}
+ *
+ *   // The name of a dragee is determined by the annotation qualified name.
+ *   //     Here, it will be "value_object"
+ *   // The kind of a dragee is a concatenation of the dragee namespace and the dragee name
+ *   //     Here, it will be "ddd/value_object"
+ *   @DDD
+ *   public @interface ValueObject{} {}
  *  }
+ *
+ *  Namespace, name and kind follow the snake_case convention.
+ *
+ *  Note that namespaces annotation can not have retention policy "SOURCE", but dragees can.
  * </pre>
  */
 @Documented
 @Inherited
-@Target({ElementType.ANNOTATION_TYPE})
-@Retention(RetentionPolicy.RUNTIME)
+@Target({})
+@Retention(RetentionPolicy.SOURCE)
 public @interface Dragee {
 
     /**
-     * @return the name of the dragee.
-     *  It should be unique accross all dragees.
-     *  Naming convention is lower+snake case.
+     *  A dragee must be under a namespace in order to distinguish two identical names from different context
+     *  Some example of namespaces: "ddd", "cqrs", "hexagonal".
      */
-    String value();
+    @Documented
+    @Inherited
+    @Target({ElementType.ANNOTATION_TYPE})
+    @Retention(RetentionPolicy.CLASS)
+    @interface Namespace {
+    }
 }
