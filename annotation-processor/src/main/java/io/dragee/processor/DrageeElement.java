@@ -1,7 +1,6 @@
 package io.dragee.processor;
 
 import io.dragee.model.Dependency;
-import lombok.Builder;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -51,19 +50,22 @@ record DrageeElement(Element element, Kind kind) {
     public List<Constructor> constructors() {
         return element.getEnclosedElements().stream()
                 .filter(enclosedElement -> enclosedElement.getKind() == ElementKind.CONSTRUCTOR)
-                .map(enclosedElement -> Constructor.builder()
-                        .parameters(parametersOf((ExecutableElement) enclosedElement))
-                        .build())
+                .map(enclosedElement -> {
+                    List<Parameter> parameters = parametersOf((ExecutableElement) enclosedElement);
+                    return Constructor.withParameters(parameters);
+                })
                 .toList();
     }
 
     public List<Field> fields() {
         return element.getEnclosedElements().stream()
                 .filter(enclosedElement -> enclosedElement.getKind() == ElementKind.FIELD)
-                .map(enclosedElement -> Field.builder()
-                        .type(enclosedElement.asType().toString())
-                        .name(enclosedElement.toString())
-                        .build())
+                .map(enclosedElement -> {
+                    String type = enclosedElement.asType().toString();
+                    String name = enclosedElement.toString();
+
+                    return Field.of(type, name);
+                })
                 .toList();
     }
 
@@ -90,17 +92,17 @@ record DrageeElement(Element element, Kind kind) {
 
     private static List<Parameter> parametersOf(ExecutableElement element) {
         return element.getParameters().stream()
-                .map(parameter -> Parameter.builder()
-                        .type(parameter.asType().toString())
-                        .name(parameter.toString())
-                        .build())
+                .map(parameter -> {
+                    String type = parameter.asType().toString();
+                    String name = parameter.toString();
+
+                    return Parameter.of(type, name);
+                })
                 .toList();
     }
 
     private static Return returnOf(ExecutableElement element) {
-        return Return.builder()
-                .type(element.getReturnType().toString())
-                .build();
+        return Return.ofType(element.getReturnType().toString());
     }
 
     public record Kind(String value) {
@@ -119,8 +121,11 @@ record DrageeElement(Element element, Kind kind) {
 
     }
 
-    @Builder
-    public record Constructor(List<Parameter> parameters) {
+    record Constructor(List<Parameter> parameters) {
+
+        public static Constructor withParameters(List<Parameter> parameters) {
+            return new Constructor(parameters);
+        }
 
         boolean contains(DrageeElement element) {
             return parameters.stream()
@@ -129,12 +134,25 @@ record DrageeElement(Element element, Kind kind) {
 
     }
 
-    @Builder
-    public record Field(String name, String type) implements HasType {
+    record Field(String type, String name) implements HasType {
+        public static Field of(String type, String name) {
+            return new Field(type, name);
+        }
     }
 
-    @Builder
-    public record Method(String name, boolean isPrivate, List<Parameter> parameters, Return returnType) {
+    record Parameter(String type, String name) implements HasType {
+
+        public static Parameter of(String type, String name) {
+            return new Parameter(type, name);
+        }
+    }
+    record Return(String type) implements HasType {
+
+        public static Return ofType(String type) {
+            return new Return(type);
+        }
+    }
+    record Method(String name, boolean isPrivate, List<Parameter> parameters, Return returnType) {
 
         public boolean use(DrageeElement otherElement) {
             return parameters.stream().anyMatch(parameter -> parameter.isOrGeneric(otherElement));
@@ -143,14 +161,44 @@ record DrageeElement(Element element, Kind kind) {
         public boolean returns(DrageeElement otherElement) {
             return returnType.isOrGeneric(otherElement);
         }
-    }
 
-    @Builder
-    public record Parameter(String name, String type) implements HasType {
-    }
+        public static Builder builder() {
+            return new Builder();
+        }
 
-    @Builder
-    public record Return(String type) implements HasType {
+        static final class Builder {
+
+            private String name;
+            private boolean isPrivate;
+            private List<Parameter> parameters;
+            private Return returnType;
+
+            public Builder name(String name) {
+                this.name = name;
+                return this;
+            }
+
+            public Builder isPrivate(boolean isPrivate) {
+                this.isPrivate = isPrivate;
+                return this;
+            }
+
+            public Builder parameters(List<Parameter> parameters) {
+                this.parameters = parameters;
+                return this;
+            }
+
+            public Builder returnType(Return returnType) {
+                this.returnType = returnType;
+                return this;
+            }
+
+            public Method build() {
+                return new Method(name, isPrivate, parameters, returnType);
+            }
+
+        }
+
     }
 
 }
