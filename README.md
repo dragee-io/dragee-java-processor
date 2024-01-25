@@ -1,4 +1,4 @@
-# Dragee-maven-plugin
+# Dragee-java-processor
 
 ## Installation
 

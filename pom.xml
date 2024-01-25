@@ -4,10 +4,10 @@
 
     <groupId>io.dragee</groupId>
     <artifactId>dragee-parent</artifactId>
-    <version>unused</version>
+    <version>latest</version>
     <packaging>pom</packaging>
 
-    <name>Dragee Java</name>
+    <name>Dragee Java Processor</name>
 
     <licenses>
         <license>

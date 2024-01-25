@@ -7,7 +7,7 @@
     <parent>
         <groupId>io.dragee</groupId>
         <artifactId>dragee-parent</artifactId>
-        <version>unused</version>
+        <version>latest</version>
     </parent>
 
     <artifactId>dragee-bom</artifactId>
