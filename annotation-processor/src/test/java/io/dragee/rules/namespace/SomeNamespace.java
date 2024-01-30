@@ -14,4 +14,29 @@ public @interface SomeNamespace {
     @interface SomeConcept {
     }
 
+
+    @Dragee.Namespace
+    @SomeNamespace
+    @Target({ElementType.TYPE})
+    @interface SomeSubNamespace {
+        @SomeSubNamespace
+        @Target({ElementType.TYPE})
+        @interface SomeOtherConcept {
+        }
+    }
+
+    @Dragee.Namespace
+    @SomeNamespace
+    @Target({ElementType.TYPE})
+    @interface SomeOtherSubNamespace{
+        @Dragee.Namespace
+        @SomeOtherSubNamespace
+        @Target({ElementType.TYPE})
+        @interface ASubSubNamespace{
+            @ASubSubNamespace
+            @Target({ElementType.TYPE})
+            @interface SomeDrageeInSubSubNamespace{
+            }
+        }
+    }
 }

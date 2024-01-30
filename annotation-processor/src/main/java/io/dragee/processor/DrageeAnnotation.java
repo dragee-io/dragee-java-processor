@@ -7,12 +7,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Types;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static io.dragee.util.SnakeCase.toSnakeCase;
@@ -33,14 +28,17 @@ class DrageeAnnotation {
         return toSnakeCase(simpleName);
     }
 
-    public String namespace() {
+    public String namespaceFullName(){
+        return namespace.toString();
+    }
+    public String namespaceSimpleName() {
         String annotationName = namespace.getSimpleName().toString();
         String simpleName = SimpleName.toSimpleName(annotationName);
         return toSnakeCase(simpleName);
     }
 
     public String kind() {
-        return String.join("/", namespace(), name());
+        return String.join("/", namespaceSimpleName(), name());
     }
 
     public boolean isPresentOrInheritedOn(Element element, Types types) {
@@ -72,31 +70,34 @@ class DrageeAnnotation {
                 .collect(Collectors.toSet());
     }
 
-    static Optional<DrageeAnnotation> test(TypeElement annotationElement) {
+    static Set<DrageeAnnotation> test(TypeElement annotationElement) {
         return lookupForNamespace(annotationElement)
-                .map(foundDragee -> new DrageeAnnotation(annotationElement, foundDragee));
+                .stream()
+                .map(foundDragee -> new DrageeAnnotation(annotationElement, foundDragee))
+                .collect(Collectors.toSet());
     }
 
-    private static Optional<Element> lookupForNamespace(Element element) {
-        return lookupForNamespace(element, new ArrayList<>());
+    private static Set<Element> lookupForNamespace(Element element) {
+        var namespaces = new LinkedHashSet<Element>();
+        lookupForNamespace(element,new ArrayList<>(), namespaces);
+        return namespaces;
     }
 
-    private static Optional<Element> lookupForNamespace(Element element,
-                                                        List<Element> alreadyLookedUp) {
+    private static void lookupForNamespace(Element element,List<Element> alreadyLookedUp, Set<Element> namespaces) {
         Dragee.Namespace annotation = element.getAnnotation(Dragee.Namespace.class);
 
         if (annotation != null) {
-            return Optional.of(element);
+            namespaces.add(element);
         }
-
-        alreadyLookedUp.add(element);
-
-        return element.getAnnotationMirrors().stream()
+        
+        element.getAnnotationMirrors().stream()
                 .map(annotationMirror -> annotationMirror.getAnnotationType().asElement())
                 .filter(el -> !alreadyLookedUp.contains(el))
-                .map(el -> DrageeAnnotation.lookupForNamespace(el, alreadyLookedUp))
-                .flatMap(Optional::stream)
-                .findFirst();
+                .forEach(el -> {
+                    alreadyLookedUp.add(element);
+                    DrageeAnnotation.lookupForNamespace(el, alreadyLookedUp, namespaces);
+                });
     }
+
 
 }
