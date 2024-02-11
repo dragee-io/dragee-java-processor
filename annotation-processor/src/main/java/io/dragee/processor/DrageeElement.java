@@ -1,6 +1,7 @@
 package io.dragee.processor;
 
 import io.dragee.model.Dependency;
+import io.dragee.model.Kind;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -103,12 +104,6 @@ record DrageeElement(Element element, Kind kind) {
 
     private static Return returnOf(ExecutableElement element) {
         return Return.ofType(element.getReturnType().toString());
-    }
-
-    public record Kind(String value) {
-        public static Kind of(String value) {
-            return new Kind(value);
-        }
     }
 
     private interface HasType {

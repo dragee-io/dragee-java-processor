@@ -1,46 +1,27 @@
 package io.dragee.processor;
 
-import io.dragee.annotation.Dragee;
-import io.dragee.util.SimpleName;
+import io.dragee.model.Kind;
 
 import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Types;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static io.dragee.util.SnakeCase.toSnakeCase;
-
 class DrageeAnnotation {
 
-    private final TypeElement annotation;
-    private final Element namespace;
+    private final DrageeNamespace namespace;
+    private final DrageeName name;
 
-    private DrageeAnnotation(TypeElement annotation, Element namespace) {
-        this.annotation = annotation;
+    DrageeAnnotation(DrageeNamespace namespace, DrageeName name) {
         this.namespace = namespace;
-    }
-
-    public String name() {
-        String annotationName = annotation.getQualifiedName().toString();
-        String simpleName = SimpleName.toSimpleName(annotationName);
-        return toSnakeCase(simpleName);
-    }
-
-    public String namespace() {
-        String annotationName = namespace.getSimpleName().toString();
-        String simpleName = SimpleName.toSimpleName(annotationName);
-        return toSnakeCase(simpleName);
+        this.name = name;
     }
 
     public String kind() {
-        return String.join("/", namespace(), name());
+        return String.join(Kind.SEGMENT, namespace.toString(), name.toString());
     }
 
     public boolean isPresentOrInheritedOn(Element element, Types types) {
@@ -48,7 +29,7 @@ class DrageeAnnotation {
         Set<Element> allAnnotationsOnElement = inheritedAnnotations(inheritedElements);
 
         return allAnnotationsOnElement.stream()
-                .anyMatch(this.annotation::equals);
+                .anyMatch(this.name::isBasedOn);
     }
 
     private Set<Element> inheritedElements(TypeMirror typeMirror, Types types) {
@@ -70,33 +51,6 @@ class DrageeAnnotation {
                 .flatMap(Collection::stream)
                 .map(annotationMirror -> annotationMirror.getAnnotationType().asElement())
                 .collect(Collectors.toSet());
-    }
-
-    static Optional<DrageeAnnotation> test(TypeElement annotationElement) {
-        return lookupForNamespace(annotationElement)
-                .map(foundDragee -> new DrageeAnnotation(annotationElement, foundDragee));
-    }
-
-    private static Optional<Element> lookupForNamespace(Element element) {
-        return lookupForNamespace(element, new ArrayList<>());
-    }
-
-    private static Optional<Element> lookupForNamespace(Element element,
-                                                        List<Element> alreadyLookedUp) {
-        Dragee.Namespace annotation = element.getAnnotation(Dragee.Namespace.class);
-
-        if (annotation != null) {
-            return Optional.of(element);
-        }
-
-        alreadyLookedUp.add(element);
-
-        return element.getAnnotationMirrors().stream()
-                .map(annotationMirror -> annotationMirror.getAnnotationType().asElement())
-                .filter(el -> !alreadyLookedUp.contains(el))
-                .map(el -> DrageeAnnotation.lookupForNamespace(el, alreadyLookedUp))
-                .flatMap(Optional::stream)
-                .findFirst();
     }
 
 }

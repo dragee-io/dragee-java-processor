@@ -18,7 +18,8 @@ class DrageeFactory {
     private final DrageeConverter drageeConverter;
 
     public DrageeFactory(Types types) {
-        this.drageeAnnotationLookup = new DrageeAnnotationLookup();
+        DrageeNamespaceLookup drageeNamespaceLookup = new DrageeNamespaceLookup();
+        this.drageeAnnotationLookup = new DrageeAnnotationLookup(drageeNamespaceLookup);
         this.drageeElementLookup = new DrageeElementLookup(types);
         this.drageeConverter = new DrageeConverter();
     }

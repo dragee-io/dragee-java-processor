@@ -1,6 +1,7 @@
 package io.dragee.processor;
 
 import io.dragee.exception.DrageeCanNotBeOfMultipleKinds;
+import io.dragee.model.Kind;
 
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
@@ -44,7 +45,7 @@ class DrageeElementLookup {
         }
 
         DrageeAnnotation drageeAnnotation = drageeAnnotationsOnElement.iterator().next();
-        DrageeElement drageeElement = new DrageeElement(element, DrageeElement.Kind.of(drageeAnnotation.kind()));
+        DrageeElement drageeElement = new DrageeElement(element, Kind.of(drageeAnnotation.kind()));
         return Optional.of(drageeElement);
     }
 
