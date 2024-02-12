@@ -31,7 +31,7 @@ public class DrageeExtensionTest {
         String actualContent = contentOfDragee(actualResult);
 
         assertThatJson(actualContent)
-                .inPath("$.kind_of")
+                .inPath("$.profile")
                 .isEqualTo("extension_test/dragee_child");
     }
 

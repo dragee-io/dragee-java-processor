@@ -1,7 +1,6 @@
 package io.dragee.processor;
 
 import io.dragee.model.Dependency;
-import io.dragee.model.Kind;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-record DrageeElement(Element element, Kind kind) {
+record DrageeElement(Element element, DrageeProfile profile) {
 
     public String name() {
         return element.toString();

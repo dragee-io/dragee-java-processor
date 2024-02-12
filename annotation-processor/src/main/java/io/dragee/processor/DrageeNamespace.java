@@ -1,6 +1,5 @@
 package io.dragee.processor;
 
-import io.dragee.model.Kind;
 import io.dragee.util.SnakeCase;
 
 import javax.lang.model.element.Element;
@@ -21,7 +20,7 @@ public class DrageeNamespace {
         String joinedParts = parts.stream()
                 .map(Element::getSimpleName)
                 .map(Name::toString)
-                .collect(Collectors.joining(Kind.SEGMENT));
+                .collect(Collectors.joining(DrageeProfile.SEPARATOR));
 
         return SnakeCase.toSnakeCase(joinedParts);
     }

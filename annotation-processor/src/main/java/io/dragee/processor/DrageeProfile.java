@@ -1,7 +1,5 @@
 package io.dragee.processor;
 
-import io.dragee.model.Kind;
-
 import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Types;
@@ -10,18 +8,21 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-class DrageeAnnotation {
+class DrageeProfile {
+
+    public static final String SEPARATOR = "/";
 
     private final DrageeNamespace namespace;
-    private final DrageeName name;
+    private final DrageeType type;
 
-    DrageeAnnotation(DrageeNamespace namespace, DrageeName name) {
+    DrageeProfile(DrageeNamespace namespace, DrageeType type) {
         this.namespace = namespace;
-        this.name = name;
+        this.type = type;
     }
 
-    public String kind() {
-        return String.join(Kind.SEGMENT, namespace.toString(), name.toString());
+    @Override
+    public String toString() {
+        return String.join(SEPARATOR, namespace.toString(), type.toString());
     }
 
     public boolean isPresentOrInheritedOn(Element element, Types types) {
@@ -29,7 +30,7 @@ class DrageeAnnotation {
         Set<Element> allAnnotationsOnElement = inheritedAnnotations(inheritedElements);
 
         return allAnnotationsOnElement.stream()
-                .anyMatch(this.name::isBasedOn);
+                .anyMatch(this.type::isBasedOn);
     }
 
     private Set<Element> inheritedElements(TypeMirror typeMirror, Types types) {

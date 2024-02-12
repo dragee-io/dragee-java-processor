@@ -3,7 +3,7 @@ package io.dragee.model;
 import java.util.Set;
 
 public record Dragee(
-        String kindOf,
+        String profile,
         String fullName,
         Set<Dependency> dependsOn) {
 
@@ -17,12 +17,12 @@ public record Dragee(
 
     public static final class Builder {
 
-        private String kindOf;
+        private String profile;
         private String fullName;
         private Set<Dependency> dependencies;
 
-        public Builder kindOf(String kindOf) {
-            this.kindOf = kindOf;
+        public Builder profile(String profile) {
+            this.profile = profile;
             return this;
         }
 
@@ -37,7 +37,7 @@ public record Dragee(
         }
 
         public Dragee build() {
-            return new Dragee(kindOf, fullName, dependencies);
+            return new Dragee(profile, fullName, dependencies);
         }
 
     }

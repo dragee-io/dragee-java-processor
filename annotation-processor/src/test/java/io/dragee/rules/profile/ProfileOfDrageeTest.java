@@ -1,6 +1,6 @@
-package io.dragee.rules.kind;
+package io.dragee.rules.profile;
 
-import io.dragee.exception.DrageeCanNotBeOfMultipleKinds;
+import io.dragee.exception.WrongUsageOfProfiles;
 import io.dragee.testing.Compiler;
 import org.junit.jupiter.api.Test;
 
@@ -9,21 +9,21 @@ import java.nio.file.Path;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-public class KindOfDrageeTest {
+public class ProfileOfDrageeTest {
 
-    private static final Path SOURCE_FOLDER = Path.of("io", "dragee", "rules", "kind");
+    private static final Path SOURCE_FOLDER = Path.of("io", "dragee", "rules", "profile");
 
     @Test
     void a_dragee_can_be_of_only_one_kind() {
         // given
-        Path sourcePath = SOURCE_FOLDER.resolve("MultipleKind.java");
+        Path sourcePath = SOURCE_FOLDER.resolve("MultipleProfiles.java");
         Compiler compiler = Compiler.compileTestClasses(sourcePath);
 
         // when
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(compiler::executeProcessor)
-                .withCauseInstanceOf(DrageeCanNotBeOfMultipleKinds.class)
-                .withMessageContaining("Dragee can not be of multiple kinds: 'io.dragee.rules.kind.MultipleKind', [testing/kind_one, testing/kind_two]");
+                .withCauseInstanceOf(WrongUsageOfProfiles.class)
+                .withMessageContaining("Dragee can not have more than one profile: 'io.dragee.rules.profile.MultipleProfiles', [testing/type_one, testing/type_two]");
     }
 
     @Test
@@ -38,7 +38,7 @@ public class KindOfDrageeTest {
     }
 
     @Test
-    void two_kind_of_dragees() {
+    void two_profile_dragees() {
         // given
         Compiler compiler = Compiler.compileTestClasses(
                 SOURCE_FOLDER.resolve("ObjectOne.java"),

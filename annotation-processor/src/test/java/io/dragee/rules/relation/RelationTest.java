@@ -67,16 +67,16 @@ public class RelationTest {
 
     @DisplayName("Dragee has a kind based on annotations")
     @Nested
-    class Kind {
+    class Profile {
 
         @Test
-        void kind_of_dragee() {
+        void type_of_dragee() {
             Compiler.Result actualResult = executeProcessor();
 
             String actualContent = contentOfDragee(actualResult);
 
             assertThatJson(actualContent)
-                    .inPath("$.kind_of")
+                    .inPath("$.profile")
                     .isString()
                     .isEqualTo("testing/test_object");
         }

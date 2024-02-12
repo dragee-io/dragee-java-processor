@@ -31,7 +31,7 @@ public class DrageeNamespaceTest {
         String actualContent = contentOfDragee(actualResult);
 
         assertThatJson(actualContent)
-                .inPath("$.kind_of")
+                .inPath("$.profile")
                 .isEqualTo("some_namespace/some_concept");
     }
 

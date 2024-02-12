@@ -7,11 +7,11 @@ import javax.lang.model.element.TypeElement;
 
 import static io.dragee.util.SnakeCase.toSnakeCase;
 
-public class DrageeName {
+public class DrageeType {
 
     private final TypeElement element;
 
-    DrageeName(TypeElement element) {
+    DrageeType(TypeElement element) {
         this.element = element;
     }
 
@@ -26,7 +26,7 @@ public class DrageeName {
         return toSnakeCase(simpleName);
     }
 
-    public static DrageeName from(TypeElement element) {
-        return new DrageeName(element);
+    public static DrageeType from(TypeElement element) {
+        return new DrageeType(element);
     }
 }
