@@ -22,9 +22,9 @@ class DrageeProfileLookup {
         return DrageeProfiles.from(candidates);
     }
 
-    private Optional<DrageeProfile> test(TypeElement annotationElement) {
-        return namespaceLookup.findFrom(annotationElement)
-                .map(namespace -> new DrageeProfile(namespace, DrageeType.from(annotationElement)));
+    private Optional<DrageeProfile> test(TypeElement annotation) {
+        return namespaceLookup.findCandidates(annotation)
+                .map(namespace -> new DrageeProfile(namespace, DrageeType.from(annotation)));
     }
 
 

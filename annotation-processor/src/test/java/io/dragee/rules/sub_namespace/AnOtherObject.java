@@ -1,5 +1,5 @@
 package io.dragee.rules.sub_namespace;
 
-@Concept
+@WrongConcept
 public class AnOtherObject {
 }

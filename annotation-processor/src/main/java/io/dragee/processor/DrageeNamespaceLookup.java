@@ -2,7 +2,7 @@ package io.dragee.processor;
 
 import io.dragee.annotation.Dragee;
 
-import javax.lang.model.element.Element;
+import javax.lang.model.element.TypeElement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,36 +10,56 @@ import java.util.Optional;
 
 class DrageeNamespaceLookup {
 
-    public Optional<DrageeNamespace> findFrom(Element element) {
-        List<Element> namespaceParts = lookupForNamespaceParts(element, new ArrayList<>(), new ArrayList<>());
+    public Optional<DrageeNamespace> findCandidates(TypeElement potentialDrageeType) {
+        List<DrageeNamespace> namespaces = lookupForNamespaces(potentialDrageeType);
 
-        if (namespaceParts.isEmpty()) {
+        if (namespaces.isEmpty()) {
             return Optional.empty();
         }
 
-        DrageeNamespace namespace = DrageeNamespace.from(namespaceParts);
+        DrageeNamespace namespace = namespaces.get(0);
+
+        if (namespaces.size() > 1) {
+            DrageeNamespace.Part subNamespaceThatIsWrong = namespace.lastPart();
+            List<DrageeNamespace> namespacesWithoutSubNamespace = namespaces.stream()
+                    .map(DrageeNamespace::parent)
+                    .toList();
+
+            throw new WrongUsageOfNamespaces(subNamespaceThatIsWrong, namespacesWithoutSubNamespace);
+        }
+
         return Optional.of(namespace);
     }
 
-    private static List<Element> lookupForNamespaceParts(Element element,
-                                                         List<Element> alreadyLookedUp,
-                                                         List<Element> namespaceParts) {
-        Dragee.Namespace annotation = element.getAnnotation(Dragee.Namespace.class);
+    private static List<DrageeNamespace> lookupForNamespaces(TypeElement annotationThatRepresentsDrageeType) {
+        List<List<DrageeNamespace.Part>> exploredPaths = new ArrayList<>();
 
-        if (annotation != null) {
-            namespaceParts.add(element);
+        continueUntilAllNamespacesAreFound(annotationThatRepresentsDrageeType, new ArrayList<>(), exploredPaths);
+
+        return exploredPaths.stream()
+                .filter(paths -> !paths.isEmpty())
+                .peek(Collections::reverse)
+                .map(DrageeNamespace::from)
+                .toList();
+    }
+
+    private static void continueUntilAllNamespacesAreFound(TypeElement currentPart,
+                                                           List<DrageeNamespace.Part> processedParts,
+                                                           List<List<DrageeNamespace.Part>> exploredPaths) {
+        List<TypeElement> potentialParts = currentPart.getAnnotationMirrors().stream()
+                .map(annotationMirror -> (TypeElement) annotationMirror.getAnnotationType().asElement())
+                .filter(annotation -> annotation.getAnnotation(Dragee.Namespace.class) != null)
+                .toList();
+
+        if (potentialParts.isEmpty()) {
+            exploredPaths.add(processedParts);
         }
 
-        alreadyLookedUp.add(element);
-
-        element.getAnnotationMirrors().stream()
-                .map(annotationMirror -> annotationMirror.getAnnotationType().asElement())
-                .filter(el -> !alreadyLookedUp.contains(el))
-                .peek(alreadyLookedUp::add)
-                .forEachOrdered(el -> lookupForNamespaceParts(el, alreadyLookedUp, namespaceParts));
-
-        Collections.reverse(namespaceParts);
-
-        return List.copyOf(namespaceParts);
+        potentialParts.forEach(nextPart -> {
+            List<DrageeNamespace.Part> branch = new ArrayList<>(processedParts);
+            branch.add(DrageeNamespace.Part.from(nextPart));
+            continueUntilAllNamespacesAreFound(nextPart, branch, exploredPaths);
+        });
     }
+
 }

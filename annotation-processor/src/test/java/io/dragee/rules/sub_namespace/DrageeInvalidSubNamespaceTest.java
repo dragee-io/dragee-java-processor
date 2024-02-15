@@ -1,6 +1,6 @@
 package io.dragee.rules.sub_namespace;
 
-import io.dragee.exception.WrongUsageOfNamespaces;
+import io.dragee.processor.WrongUsageOfNamespaces;
 import io.dragee.testing.Compiler;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +26,7 @@ public class DrageeInvalidSubNamespaceTest {
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(DrageeInvalidSubNamespaceTest::executeProcessor)
                 .withCauseInstanceOf(WrongUsageOfNamespaces.class)
-                .withMessageContaining("A sub namespace can not depend on more than one other namespace: ['SubFromTwoNamespaces']");
+                .withMessageContaining("A sub namespace can not depend on more than one other namespace: 'sub_from_two_namespaces', ['path/foo/bar', 'testing']");
     }
 
 }

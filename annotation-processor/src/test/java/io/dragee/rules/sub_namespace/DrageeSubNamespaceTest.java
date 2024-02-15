@@ -32,7 +32,7 @@ public class DrageeSubNamespaceTest {
 
         assertThatJson(actualContent)
                 .inPath("$.profile")
-                .isEqualTo("foo/bar/concept");
+                .isEqualTo("path/foo/bar/concept");
     }
 
 }

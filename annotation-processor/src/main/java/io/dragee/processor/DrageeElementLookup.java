@@ -1,8 +1,5 @@
 package io.dragee.processor;
 
-import io.dragee.exception.WrongUsageOfProfiles;
-import io.dragee.model.Profile;
-
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.util.Types;
@@ -36,12 +33,7 @@ class DrageeElementLookup {
         }
 
         if (drageeProfilesOnElement.size() > 1) {
-            List<String> profiles = drageeProfilesOnElement.stream()
-                    .map(DrageeProfile::toString)
-                    .sorted()
-                    .toList();
-
-            throw new WrongUsageOfProfiles(element.toString(), profiles);
+            throw new WrongUsageOfProfiles(element.toString(), drageeProfilesOnElement);
         }
 
         DrageeProfile drageeProfile = drageeProfilesOnElement.iterator().next();

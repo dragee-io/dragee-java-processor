@@ -1,6 +1,6 @@
 package io.dragee.rules.profile;
 
-import io.dragee.exception.WrongUsageOfProfiles;
+import io.dragee.processor.WrongUsageOfProfiles;
 import io.dragee.testing.Compiler;
 import org.junit.jupiter.api.Test;
 
