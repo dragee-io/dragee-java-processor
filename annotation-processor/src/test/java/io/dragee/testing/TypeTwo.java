@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 @Testing
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.SOURCE)
-public @interface KindTwo {
+public @interface TypeTwo {
 }

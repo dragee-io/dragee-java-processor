@@ -17,7 +17,7 @@ class DrageeConverter implements Function<DrageeElements, Collection<Dragee>> {
     private static Dragee toDragee(DrageeElement drageeElement, DrageeElements drageeElements) {
         return Dragee.builder()
                 .fullName(drageeElement.name())
-                .kindOf(drageeElement.kind().value())
+                .profile(drageeElement.profile().toString())
                 .dependsOn(drageeElements.dependenciesOf(drageeElement))
                 .build();
     }

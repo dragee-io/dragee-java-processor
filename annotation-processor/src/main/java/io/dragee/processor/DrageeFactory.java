@@ -6,19 +6,17 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Types;
 import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 class DrageeFactory {
 
-    private final DrageeAnnotationLookup drageeAnnotationLookup;
+    private final DrageeProfileLookup drageeProfileLookup;
     private final DrageeElementLookup drageeElementLookup;
     private final DrageeConverter drageeConverter;
 
     public DrageeFactory(Types types) {
-        this.drageeAnnotationLookup = new DrageeAnnotationLookup();
+        DrageeNamespaceLookup drageeNamespaceLookup = new DrageeNamespaceLookup();
+        this.drageeProfileLookup = new DrageeProfileLookup(drageeNamespaceLookup);
         this.drageeElementLookup = new DrageeElementLookup(types);
         this.drageeConverter = new DrageeConverter();
     }
@@ -29,8 +27,8 @@ class DrageeFactory {
     }
 
     private DrageeElements findDrageeElements(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        DrageeAnnotations drageeAnnotations = drageeAnnotationLookup.findCandidates(annotations);
-        return drageeElementLookup.findCandidates(drageeAnnotations, roundEnv);
+        DrageeProfiles drageeProfiles = drageeProfileLookup.findCandidates(annotations);
+        return drageeElementLookup.findCandidates(drageeProfiles, roundEnv);
     }
 
 

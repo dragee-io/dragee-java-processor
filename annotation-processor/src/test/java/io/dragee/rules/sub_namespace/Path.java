@@ -1,4 +1,4 @@
-package io.dragee.rules.dragee_extension;
+package io.dragee.rules.sub_namespace;
 
 import io.dragee.annotation.Dragee;
 
@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Dragee.Namespace
 @Target({ElementType.TYPE})
-public @interface ExtensionTest {
+public @interface Path {
 }

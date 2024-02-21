@@ -1,9 +1,9 @@
-package io.dragee.rules.dragee_extension;
+package io.dragee.rules.sub_namespace;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 
-@ExtensionTest
+@Bar
 @Target({ElementType.TYPE})
-public @interface DrageeGrandParent {
+@interface Concept {
 }

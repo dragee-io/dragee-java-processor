@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-record DrageeElement(Element element, Kind kind) {
+record DrageeElement(Element element, DrageeProfile profile) {
 
     public String name() {
         return element.toString();
@@ -103,12 +103,6 @@ record DrageeElement(Element element, Kind kind) {
 
     private static Return returnOf(ExecutableElement element) {
         return Return.ofType(element.getReturnType().toString());
-    }
-
-    public record Kind(String value) {
-        public static Kind of(String value) {
-            return new Kind(value);
-        }
     }
 
     private interface HasType {

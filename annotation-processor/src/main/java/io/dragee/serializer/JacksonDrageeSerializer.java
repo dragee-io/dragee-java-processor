@@ -64,7 +64,7 @@ public class JacksonDrageeSerializer implements DrageeSerializer {
         return Path.of(pathOfDragee);
     }
 
-    private record SerializableDragee(String name, String kindOf, Map<String, Set<String>> dependsOn) {
+    private record SerializableDragee(String name, String profile, Map<String, Set<String>> dependsOn) {
 
         public static SerializableDragee from(Dragee dragee) {
             var dependsOn = dragee.dependsOn().stream()
@@ -73,7 +73,7 @@ public class JacksonDrageeSerializer implements DrageeSerializer {
                             .collect(Collectors.toSet())))
                     .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, Map.Entry::getValue));
 
-            return new SerializableDragee(dragee.fullName(), dragee.kindOf(), dependsOn);
+            return new SerializableDragee(dragee.fullName(), dragee.profile(), dependsOn);
         }
 
     }

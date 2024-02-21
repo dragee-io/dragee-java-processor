@@ -1,7 +1,5 @@
 package io.dragee.processor;
 
-import io.dragee.exception.DrageeCanNotBeOfMultipleKinds;
-
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.util.Types;
@@ -18,7 +16,7 @@ class DrageeElementLookup {
         this.types = types;
     }
 
-    public DrageeElements findCandidates(DrageeAnnotations annotations,  RoundEnvironment roundEnv) {
+    public DrageeElements findCandidates(DrageeProfiles annotations, RoundEnvironment roundEnv) {
         Set<DrageeElement> drageeElements = roundEnv.getRootElements().stream()
                 .map(element -> testCandidate(annotations, element))
                 .flatMap(Optional::stream)
@@ -27,24 +25,19 @@ class DrageeElementLookup {
         return DrageeElements.from(drageeElements);
     }
 
-    private Optional<DrageeElement> testCandidate(DrageeAnnotations drageeAnnotations, Element element) {
-        Set<DrageeAnnotation> drageeAnnotationsOnElement = drageeAnnotations.findPresentOrInheritedOn(element, types);
+    private Optional<DrageeElement> testCandidate(DrageeProfiles drageeProfiles, Element element) {
+        Set<DrageeProfile> drageeProfilesOnElement = drageeProfiles.findPresentOrInheritedOn(element, types);
 
-        if (drageeAnnotationsOnElement.isEmpty()) {
+        if (drageeProfilesOnElement.isEmpty()) {
             return Optional.empty();
         }
 
-        if (drageeAnnotationsOnElement.size() > 1) {
-            List<String> kinds = drageeAnnotationsOnElement.stream()
-                    .map(DrageeAnnotation::kind)
-                    .sorted()
-                    .toList();
-
-            throw new DrageeCanNotBeOfMultipleKinds(element.toString(), kinds);
+        if (drageeProfilesOnElement.size() > 1) {
+            throw new WrongUsageOfProfiles(element.toString(), drageeProfilesOnElement);
         }
 
-        DrageeAnnotation drageeAnnotation = drageeAnnotationsOnElement.iterator().next();
-        DrageeElement drageeElement = new DrageeElement(element, DrageeElement.Kind.of(drageeAnnotation.kind()));
+        DrageeProfile drageeProfile = drageeProfilesOnElement.iterator().next();
+        DrageeElement drageeElement = new DrageeElement(element, drageeProfile);
         return Optional.of(drageeElement);
     }
 

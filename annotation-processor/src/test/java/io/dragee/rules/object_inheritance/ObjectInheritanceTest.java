@@ -27,14 +27,14 @@ public class ObjectInheritanceTest {
     }
 
     @Test
-    void kind_of_dragee_can_be_inherited() {
+    void profile_dragee_can_be_inherited() {
         Compiler.Result actualResult = executeProcessor();
 
         String actualContent = contentOfDragee(actualResult);
 
         assertThatJson(actualContent)
-                .inPath("$.kind_of")
-                .isEqualTo("testing/kind_one");
+                .inPath("$.profile")
+                .isEqualTo("testing/type_one");
     }
 
 }
