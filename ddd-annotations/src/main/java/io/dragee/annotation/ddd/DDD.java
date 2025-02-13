@@ -13,14 +13,14 @@ import java.lang.annotation.Target;
 @Inherited
 @Documented
 @Target(ElementType.ANNOTATION_TYPE)
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface DDD {
 
     @DDD
     @Documented
     @Inherited
     @Target(ElementType.TYPE)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(RetentionPolicy.RUNTIME)
     @interface Aggregate {
     }
 
@@ -28,7 +28,7 @@ public @interface DDD {
     @Documented
     @Inherited
     @Target(ElementType.TYPE)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(RetentionPolicy.RUNTIME)
     @interface Entity {
     }
 
@@ -36,7 +36,7 @@ public @interface DDD {
     @Documented
     @Inherited
     @Target(ElementType.TYPE)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(RetentionPolicy.RUNTIME)
     @interface Command {
     }
 
@@ -44,7 +44,7 @@ public @interface DDD {
     @Documented
     @Inherited
     @Target(ElementType.TYPE)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(RetentionPolicy.RUNTIME)
     @interface Event {
     }
 
@@ -52,7 +52,7 @@ public @interface DDD {
     @Documented
     @Inherited
     @Target(ElementType.TYPE)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(RetentionPolicy.RUNTIME)
     @interface ValueObject {
     }
 
@@ -60,7 +60,7 @@ public @interface DDD {
     @Documented
     @Inherited
     @Target(ElementType.TYPE)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(RetentionPolicy.RUNTIME)
     @interface Factory {
     }
 
@@ -68,7 +68,7 @@ public @interface DDD {
     @Documented
     @Inherited
     @Target(ElementType.TYPE)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(RetentionPolicy.RUNTIME)
     @interface Service {
     }
 
@@ -76,7 +76,7 @@ public @interface DDD {
     @Documented
     @Inherited
     @Target(ElementType.TYPE)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(RetentionPolicy.RUNTIME)
     @interface Repository {
     }
 }
