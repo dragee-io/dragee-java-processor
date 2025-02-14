@@ -106,13 +106,16 @@ record DrageeElement(Element element, DrageeProfile profile) {
     }
 
     private interface HasType {
-
         String type();
 
-        default boolean isOrGeneric(DrageeElement element) {
-            return type().contains(element.name());
+        private boolean isGenericOf(String type, String elementName) {
+            String regex = ".*<\\s*([^,>]*,\\s*)*" + elementName + "(\\s*,[^,>]*)*>.*";
+            return type.matches(regex);
         }
 
+        default boolean isOrGeneric(DrageeElement element) {
+            return element.name().equals(type()) || isGenericOf(type(), element.name());
+        }
     }
 
     record Constructor(List<Parameter> parameters) {
@@ -140,12 +143,14 @@ record DrageeElement(Element element, DrageeProfile profile) {
             return new Parameter(type, name);
         }
     }
+
     record Return(String type) implements HasType {
 
         public static Return ofType(String type) {
             return new Return(type);
         }
     }
+
     record Method(String name, boolean isPrivate, List<Parameter> parameters, Return returnType) {
 
         public boolean use(DrageeElement otherElement) {
