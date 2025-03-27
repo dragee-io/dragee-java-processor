@@ -12,6 +12,22 @@
 
     <artifactId>ddd-annotations</artifactId>
     <packaging>jar</packaging>
+    <name>ddd-annotations</name>
+    <description>dragee parent</description>
+    <url>https://dragee.io</url>
+    <developers>
+      <developer>
+        <name>Edouard Cattez</name>
+        <email>ecattez@hoppr.tech</email>
+        <organization>Dragée</organization>
+        <organizationUrl>https://dragee.io</organizationUrl>
+      </developer>
+    </developers>
+    <scm>
+      <connection>scm:git:git://github.com/dragee-io/dragee-java-processor.git</connection>
+      <developerConnection>scm:git:ssh://github.com:dragee-io/dragee-java-processor.git</developerConnection>
+      <url>https://github.com/dragee-io/dragee-java-processor/tree/main</url>
+    </scm>
 
     <dependencies>
         <dependency>
