@@ -3,43 +3,21 @@ run-name: Deploy to registry
 on:
   push:
     branches:
-      - 'main'
+      - "main"
     tags:
-      - '[0-9]+.[0-9]+.[0-9]+'
-      - '[0-9]+.[0-9]+.[0-9]+-rc.[0-9]+'
+      - "[0-9]+.[0-9]+.[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+-rc.[0-9]+"
 jobs:
-  cleanup:
-    if: github.ref_name == 'main'
-    permissions:
-      packages: write
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        package-to-remove:
-          - dragee-parent
-          - dragee-bom
-          - annotation-processor
-          - core-annotations
-          - ddd-annotations
-    steps:
-      - name: Clean packages relative to main branch
-        uses: paulushcgcj/delete-github-package@1.0.0
-        continue-on-error: true
-        with:
-          type: maven
-          name: io.dragee.${{ matrix.package-to-remove }}
-          version: 'main'
   deploy:
     runs-on: ubuntu-latest
-    needs: cleanup
     permissions:
       packages: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: "temurin"
+          java-version: "17"
           cache: maven
       - name: Set pom version with tag name
         run: mvn versions:set -DnewVersion=${{ github.ref_name }}
