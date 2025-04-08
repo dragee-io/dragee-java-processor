@@ -21,11 +21,24 @@ jobs:
           cache: maven
       - name: Set pom version with tag name
         run: mvn versions:set -DnewVersion=${{ github.ref_name }}-SNAPSHOT
+      - name: Create settings.xml
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+        run: |
+          username=${{ env.MAVEN_CENTRAL_USERNAME }}
+          password=${{ env.MAVEN_CENTRAL_PASSWORD }}
+          cat <<EOF > settings.xml
+          <settings>
+            <servers>
+              <server>
+                <id>central</id>
+                <username>$username</username>
+                <password>$password</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
       - name: Deploy to Github Package Registry
         shell: bash
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "<settings><servers><server><id>gh</id><username>$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $1}')</username><password>\${env.GITHUB_TOKEN}</password></server></servers></settings>" > settings.xml
-          DEPLOYMENT_REPOSITORY="gh::default::https://maven.pkg.github.com/${GITHUB_REPOSITORY}"
-          mvn --settings settings.xml deploy -DaltDeploymentRepository="${DEPLOYMENT_REPOSITORY}"
+        run: mvn --settings settings.xml deploy
