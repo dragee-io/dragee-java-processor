@@ -20,7 +20,7 @@ jobs:
           java-version: "17"
           cache: maven
       - name: Set pom version with tag name
-        run: mvn versions:set -DnewVersion=${{ github.ref_name }}
+        run: mvn versions:set -DnewVersion=${{ github.ref_name }}-SNAPSHOT
       - name: Deploy to Github Package Registry
         shell: bash
         env:
