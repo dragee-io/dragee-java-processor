@@ -28,8 +28,6 @@ jobs:
         run: |
           username=${{ env.MAVEN_CENTRAL_USERNAME }}
           password=${{ env.MAVEN_CENTRAL_PASSWORD }}
-          passphrase=${{env.GPG_PASSPHRASE }}
-          keyname=${{env.GPG_KEY_ID }}
           cat <<EOF > settings.xml
           <settings>
             <servers>
@@ -38,14 +36,20 @@ jobs:
                 <username>$username</username>
                 <password>$password</password>
               </server>
-              <server>
-                <id>gpg</id>
-                <passphrase>$passphrase</passphrase>
-                <keyname>$keyname</keyname>
-              </server>
             </servers>
           </settings>
           EOF
+      # - name: Debug GPG import
+      #   env:
+      #     GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      #   run: |
+      #     set -x
+      #     printf "%s" "$GPG_PRIVATE_KEY" | gpg --batch --import
+      - name: Decode and Import GPG Key
+        env:
+          GPG_BASE64_PRIVATE_KEY: ${{ secrets.GPG_BASE64_PRIVATE_KEY }}
+        run: |
+          gpg --version
+          echo "$GPG_BASE64_PRIVATE_KEY" | base64 --decode | gpg --batch --import
       - name: Deploy to Maven Central Package Registry
-        shell: bash
-        run: mvn --settings settings.xml deploy
+        run: mvn --settings settings.xml deploy -Dgpg.keyname="${{ secrets.GPG_KEY_ID }}" -Dgpg.passphrase="${{ secrets.GPG_PASSPHRASE }}"

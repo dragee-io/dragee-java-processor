@@ -124,6 +124,11 @@
                   <configuration>
                       <keyname>${gpg.keyname}</keyname>
                       <passphrase>${gpg.passphrase}</passphrase>
+                      <passphraseServerId>${gpg.keyname}</passphraseServerId>
+                      <gpgArguments>
+                        <arg>--pinentry-mode</arg>
+                        <arg>loopback</arg>
+                      </gpgArguments>
                   </configuration>
             </plugin>
         </plugins>
