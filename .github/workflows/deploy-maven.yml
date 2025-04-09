@@ -18,7 +18,7 @@ jobs:
           java-version: "17"
           cache: maven
       - name: Set pom version with tag name
-        run: mvn versions:set -DnewVersion=${{ github.ref_name }}-SNAPSHOT
+        run: mvn versions:set -DnewVersion=${{ github.ref_name }}
       - name: Create settings.xml
         env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
