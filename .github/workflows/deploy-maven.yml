@@ -1,5 +1,5 @@
 name: maven deploy
-run-name: Deploy to registry
+run-name: Deploy to Maven registry
 on:
   push:
     tags:
@@ -19,6 +19,8 @@ jobs:
           cache: maven
       - name: Set pom version with tag name
         run: mvn versions:set -DnewVersion=${{ github.ref_name }}
+      - name: Add source jar
+        run: mvn source:jar
       - name: Create settings.xml
         env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
