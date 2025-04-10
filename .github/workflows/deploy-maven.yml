@@ -19,7 +19,7 @@ jobs:
           cache: maven
       - name: Set pom version with tag name
         run: mvn versions:set -DnewVersion=${{ github.ref_name }}
-      - name: Add source jar
+      - name: Add mandatory source files for publishing
         run: mvn source:jar
       - name: Create settings.xml
         env:
@@ -41,12 +41,6 @@ jobs:
             </servers>
           </settings>
           EOF
-      # - name: Debug GPG import
-      #   env:
-      #     GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-      #   run: |
-      #     set -x
-      #     printf "%s" "$GPG_PRIVATE_KEY" | gpg --batch --import
       - name: Decode and Import GPG Key
         env:
           GPG_BASE64_PRIVATE_KEY: ${{ secrets.GPG_BASE64_PRIVATE_KEY }}
