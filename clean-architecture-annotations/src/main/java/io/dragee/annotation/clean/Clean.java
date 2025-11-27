@@ -8,14 +8,14 @@ import java.lang.annotation.*;
 @Inherited
 @Documented
 @Target(ElementType.ANNOTATION_TYPE)
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Clean {
 
     @Clean
     @Documented
     @Inherited
     @Target(ElementType.TYPE)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(RetentionPolicy.RUNTIME)
     @interface Controller {
     }
 
@@ -23,7 +23,7 @@ public @interface Clean {
     @Documented
     @Inherited
     @Target(ElementType.TYPE)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(RetentionPolicy.RUNTIME)
     @interface Presenter {
     }
 
@@ -31,7 +31,7 @@ public @interface Clean {
     @Documented
     @Inherited
     @Target(ElementType.TYPE)
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(RetentionPolicy.RUNTIME)
     @interface UseCase {
     }
 }
