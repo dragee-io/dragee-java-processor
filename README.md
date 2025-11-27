@@ -18,9 +18,9 @@ Dependencies are provided through the use of a bom dependency.
 </dependencyManagement>
 ```
 
-## annotation-processor
+## How to process your project
 
-This dependency is mandatory in order to process objects that are assignable to dragee.
+This dependency is mandatory to process objects that are assignable to Dragee.
 
 ```xml
 <dependencies>
@@ -51,9 +51,9 @@ This dependency is mandatory in order to process objects that are assignable to 
 </build>
 ```
 
-## core-annotations
+## Core Annotations
 
-Core annotations of Dragee format. It is **already provided** by the annotation-processor.
+Core annotations of Dragee format. It is **already provided** by the `annotation-processor` dependency.
 
 ```xml
 <dependency>
@@ -63,14 +63,26 @@ Core annotations of Dragee format. It is **already provided** by the annotation-
 </dependency>
 ```
 
-## ddd-annotations
+## DDD Annotations
 
-All the annotations relative to DDD tactical patterns.
+If you want to use the DDD tactical pattern annotations, you must add the following dependency:
 
 ```xml
 <dependency>
     <groupId>io.dragee</groupId>
     <artifactId>ddd-annotations</artifactId>
+    <scope>provided</scope>
+</dependency>
+```
+
+### Clean Architecture Annotations
+
+If you want to use the Clean Architecture annotations, you must add the following dependency:
+
+```xml
+<dependency>
+    <groupId>io.dragee</groupId>
+    <artifactId>clean-annotations</artifactId>
     <scope>provided</scope>
 </dependency>
 ```
