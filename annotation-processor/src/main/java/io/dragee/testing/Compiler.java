@@ -93,6 +93,11 @@ public class Compiler {
             }
         }
 
+        public boolean hasDrageeFile(Path relativePath) {
+            Path drageePath = DRAGEE_FOLDER.resolve(relativePath);
+            return Files.exists(drageePath);
+        }
+
         private Result execute() {
             this.success = task.call();
             return this;
