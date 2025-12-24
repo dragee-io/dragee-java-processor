@@ -1,0 +1,1 @@
+{"name":"io.dragee.annotation.hexagonal.sample.AnOutboundPort","profile":"hexagonal/outbound_port","depends_on":{}}
