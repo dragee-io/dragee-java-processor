@@ -1,9 +1,10 @@
 package io.dragee.serializer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import io.dragee.exception.SerializationFailed;
 import io.dragee.model.Dragee;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.PropertyNamingStrategies;
+import tools.jackson.databind.json.JsonMapper;
 
 import javax.annotation.processing.Filer;
 import javax.tools.FileObject;
@@ -23,8 +24,9 @@ public class JacksonDrageeSerializer implements DrageeSerializer {
     private static final String PATH_SEGMENT_SYMBOL = "/";
     private static final String FILE_SUFFIX = ".json";
 
-    private final ObjectMapper objectMapper = new ObjectMapper()
-            .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+    private final ObjectMapper objectMapper = JsonMapper.builder()
+            .propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE)
+            .build();
     private final String DRAGEE_FOLDER = "dragee";
     private final Filer filer;
 
@@ -59,7 +61,7 @@ public class JacksonDrageeSerializer implements DrageeSerializer {
 
     private static Path pathOfDragee(Dragee dragee) {
         String fullName = dragee.fullName();
-        String packageName =  fullName.substring(0, fullName.lastIndexOf("."));
+        String packageName = fullName.substring(0, fullName.lastIndexOf("."));
         String pathOfDragee = packageName.replaceAll(PACKAGE_SEGMENT_SYMBOL, PATH_SEGMENT_SYMBOL);
         return Path.of(pathOfDragee);
     }
