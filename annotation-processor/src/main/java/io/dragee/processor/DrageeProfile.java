@@ -26,11 +26,19 @@ class DrageeProfile {
     }
 
     public boolean isPresentOrInheritedOn(Element element, Types types) {
-        Set<Element> inheritedElements = inheritedElements(element.asType(), types);
+        Set<Element> inheritedElements = inheritedElements(element, types);
         Set<Element> allAnnotationsOnElement = inheritedAnnotations(inheritedElements);
 
         return allAnnotationsOnElement.stream()
                 .anyMatch(this.type::isBasedOn);
+    }
+
+    private Set<Element> inheritedElements(Element element, Types types) {
+        if (this.type.isInheritable()) {
+            return inheritedElements(element.asType(), types);
+        }
+
+        return Set.of(element);
     }
 
     private Set<Element> inheritedElements(TypeMirror typeMirror, Types types) {

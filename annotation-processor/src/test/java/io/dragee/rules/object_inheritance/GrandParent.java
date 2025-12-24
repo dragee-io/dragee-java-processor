@@ -1,7 +1,7 @@
 package io.dragee.rules.object_inheritance;
 
-import io.dragee.testing.TypeOne;
+import io.dragee.testing.InheritableType;
 
-@TypeOne
+@InheritableType
 public interface GrandParent {
 }
