@@ -20,7 +20,7 @@ Dependencies are provided through the use of a bom dependency.
 
 ## annotation-processor
 
-This dependency is mandatory in order to process objects that are assignable to dragee.
+This dependency is mandatory to process objects that are assignable to Dragee.
 
 ```xml
 <dependencies>
@@ -71,6 +71,18 @@ All the annotations relative to DDD tactical patterns.
 <dependency>
     <groupId>io.dragee</groupId>
     <artifactId>ddd-annotations</artifactId>
+    <scope>provided</scope>
+</dependency>
+```
+
+## hexagonal-annotations
+
+If you want to use the Hexagonal Architecture annotations, you must add the following dependency:
+
+```xml
+<dependency>
+    <groupId>io.dragee</groupId>
+    <artifactId>hexagonal-annotations</artifactId>
     <scope>provided</scope>
 </dependency>
 ```
