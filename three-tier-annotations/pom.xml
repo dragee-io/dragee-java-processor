@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.fixentropy</groupId>
+        <artifactId>fixentropy-parent</artifactId>
+        <version>latest</version>
+    </parent>
+
+    <artifactId>three-tier-annotations</artifactId>
+    <packaging>jar</packaging>
+    <name>three-tier-annotations</name>
+    <url>https://fixentropy.io</url>
+    <scm>
+        <connection>scm:git:git://github.com/fixentropy-io/fixentropy-java-processor.git</connection>
+        <developerConnection>scm:git:ssh://github.com:fixentropy-io/fixentropy-java-processor.git</developerConnection>
+        <url>https://github.com/fixentropy-io/fixentropy-java-processor/tree/main</url>
+    </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.fixentropy</groupId>
+            <artifactId>core-annotations</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.fixentropy</groupId>
+            <artifactId>annotation-processor</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>

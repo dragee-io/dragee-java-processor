@@ -36,6 +36,7 @@
         <module>annotation-processor</module>
         <module>bom</module>
         <module>hexagonal-annotations</module>
+        <module>three-tier-annotations</module>
     </modules>
 
     <properties>
