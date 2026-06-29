@@ -12,6 +12,7 @@
     <artifactId>three-tier-annotations</artifactId>
     <packaging>jar</packaging>
     <name>three-tier-annotations</name>
+    <description>fixentropy three tier annotations</description>
     <url>https://fixentropy.io</url>
     <scm>
         <connection>scm:git:git://github.com/fixentropy-io/fixentropy-java-processor.git</connection>
