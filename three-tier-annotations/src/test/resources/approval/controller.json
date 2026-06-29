@@ -1,1 +1,1 @@
-{"name":"io.fixentropy.annotation.threetier.sample.APresenter","profile":"three_tier/presenter","depends_on":{}}
+{"name":"io.fixentropy.annotation.threetier.sample.AController","profile":"three_tier/controller","depends_on":{}}

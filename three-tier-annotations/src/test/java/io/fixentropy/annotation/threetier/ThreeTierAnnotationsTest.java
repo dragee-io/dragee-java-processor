@@ -18,7 +18,7 @@ public class ThreeTierAnnotationsTest {
 
     private static Compiler.Result executeProcessor() {
         Compiler compiler = Compiler.compileTestClasses(
-                SOURCE_FOLDER.resolve("APresenter.java"),
+                SOURCE_FOLDER.resolve("AController.java"),
                 SOURCE_FOLDER.resolve("AService.java"),
                 SOURCE_FOLDER.resolve("ARepository.java"),
                 SOURCE_FOLDER.resolve("AnEntity.java"),
@@ -32,7 +32,7 @@ public class ThreeTierAnnotationsTest {
 
     @ParameterizedTest
     @CsvSource({
-            "APresenter, presenter",
+            "AController, controller",
             "AService, service",
             "ARepository, repository",
             "AnEntity, entity",

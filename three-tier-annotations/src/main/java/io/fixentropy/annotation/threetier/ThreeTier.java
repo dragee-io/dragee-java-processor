@@ -56,7 +56,7 @@ public @interface ThreeTier {
     @Inherited
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.RUNTIME)
-    @interface Presenter {
+    @interface Controller {
     }
 
     @ThreeTier
